@@ -1,0 +1,24 @@
+{
+	"0": {
+		"name": "Test Effect",
+		"description": "Racks the body with dangerous prototype energy. %d",
+		"duration": 4,
+		"harmful": true,
+		"type": "Magic",
+		"max_stacks": 1,
+		"effects": [
+			{ "change": "reduce", "stat": "defense", "power": 25 },
+		],
+	},
+	"1": {
+		"name": "Defense Down",
+		"description": "Defenses reduces by [color=blue]%d%%[/color].",
+		"duration": 4,
+		"harmful": true,
+		"type": "Physical",
+		"max_stacks": 4,
+		"effects": [
+			{ "change": "reduce", "stat": "defense", "power": 25 },
+		],
+	},
+}
