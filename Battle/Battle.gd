@@ -14,7 +14,9 @@ var state
 var lastState
 
 onready var battleFunc = preload("res://battleFunctions.gd")
+onready var charUI = preload("res://Battle/UI/characterUI.tscn")
 
+onready var ui = get_node("UI")
 onready var stateLabel = get_node("UI/stateLabel")
 var sl = ""
 
@@ -33,6 +35,10 @@ func _ready():
 			foes.append(i)
 		if i.name == "Ally":
 			ally.append(i)
+			var nui = charUI.instance()
+			nui.attachedChar = i
+			nui.rect_position = Vector2(652,652)
+			ui.add_child(nui)
 		i.connect("deal_damage",battleFunc,"_deal_damage")
 		i.connect("cleared_animation_stack",self,"_on_battler_clearanimstacks")
 	battlers.sort_custom(battleFunc,"isSpeedGreater")

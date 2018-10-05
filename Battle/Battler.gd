@@ -31,16 +31,18 @@ var done = false
 
 signal deal_damage
 signal cleared_animation_stack
+signal hp_changed
 
 # animation variables 
 onready var sprite = get_node("battlerSprite")
 onready var battlerAnim = get_node("battlerAnim")
 
-
+# bar variables
 onready var hpBar = get_node("battlerInfo/healthBar")
 onready var adBar = get_node("battlerInfo/adrenalineBar")
 onready var damLabel = preload("res://Prefabs/floatLabel.tscn")
 
+# positions
 onready var front = get_node("positions/front")
 onready var back = get_node("positions/back")
 
@@ -75,12 +77,14 @@ func _process(delta):
 			if battlerAnim.current_animation != "hurt": battlerAnim.play("hurt")
 			var change = float(last_hp - hp)
 			change = (change / max_hp) * 100
+			emit_signal("hp_changed",change,"down")
 			hpBar.removeAmount(change)
 			createDamageLabel(last_hp - hp)
 			last_hp = hp
 		if last_hp < hp:
 			var change = float(hp - last_hp)
 			change = (change / max_hp) * 100
+			emit_signal("hp_changed",change,"up")
 			hpBar.addAmount(change)
 			createDamageLabel(hp - last_hp)
 			last_hp = hp
@@ -133,24 +137,6 @@ func _process(delta):
 # after completing the animation, it should pop_front() to get rid of the animation it just played,
 # look at the new animation in the front and run that. once animationStack is empty(), it should return the
 # sprite back to its original position and emit_signal animation_complete
-
-func animate(anim,move,type="run"):
-	#anim is the animation that you wish to play
-	#move is the Vector2 you wish to move to
-	#type is either run or leap
-	animating = true
-	moved = false
-	animation = anim
-	
-	for i in action["animation"]:
-		animationStack.append(i)
-	
-	match type:
-		"run":
-			move_sprite(move)
-		"stand":
-			move_sprite(front.global_position,"run",0.25)
-	
 
 func performAction():
 	if action == null:
