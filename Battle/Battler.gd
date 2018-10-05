@@ -23,11 +23,11 @@ var target = []
 
 # animation variables
 var animationStack = []
+var activetween
+var processingStack = false
 var animating = false
-var moved = false
 var start_pos
 var animation
-var done = false
 
 signal deal_damage
 signal cleared_animation_stack
@@ -70,8 +70,7 @@ func _ready():
 
 func _process(delta):
 	$Label.text = "position: " + str(sprite.global_position) + "\nstart_pos: " + str(start_pos)
-	$Label.text += "\nanimating: " + str(animating) + "\ndone: " + str(done)
-	$Label.text += "\nmoved: " + str(moved) + "\ntween active: " + str($battlerTween.is_active())
+	$Label.text += "\nanimating: " + str(animating)
 	if last_hp != hp:
 		if last_hp > hp:
 			if battlerAnim.current_animation != "hurt": battlerAnim.play("hurt")
@@ -98,36 +97,24 @@ func _process(delta):
 	
 	if animating:
 		if !animationStack.empty():
-			if !moved:
-				if !$battlerTween.is_active():
-					print("moving...")
-					var mpos
-					
-					match animationStack.front()["pos"]:
-						"STAY": 
-							moved = true
-							pass
-						"SELF_FRONT": mpos = front.global_position
-						"SELF_BACK": mpos = back.global_position
-						"ENEMY_FRONT": mpos = target[0].front.global_position
-						"ENEMY_BACK": mpos = target[0].back.global_position
-						_:
-							print("i dunno... stepping back")
-							mpos = back.global_position
-					
-					move_sprite(mpos)
-			else: # if moved
-				if battlerAnim.current_animation != animationStack.front()["animation"]:
-					print("animating...")
-					battlerAnim.play(animationStack.front()["animation"])
-			
-		else: 
-			if sprite.global_position != start_pos: move_sprite(start_pos)
-		if done:
-			emit_signal("cleared_animation_stack")
-			sprite.global_position = start_pos
-			animating = false
-			done = false
+			if !processingStack:
+				match animationStack.front()["key"]:
+					"move":
+						
+						move_sprite(animationStack.front()["pos"])
+						processingStack = true
+						
+					"animation":
+						
+						battlerAnim.play(animationStack.front()["animation"])
+						processingStack = true
+						
+		else:
+			if !processingStack:
+				print("Animation stack cleared")
+#				emit_signal("cleared_animation_stack")
+				move_sprite("START")
+				processingStack = true
 	
 
 ## ANIMATION HANDLING ##
@@ -150,6 +137,34 @@ func performAction():
 	
 	animating = true
 
+func move_sprite(pos_key):
+	# pos_key accepts a string that indicates the position
+	# details on what pos_key can be in the match statement below
+	
+	var newTween = Tween.new()
+	add_child(newTween)
+	activetween = newTween
+	
+	# add to a group (just in case) and connect the completed signal
+	newTween.connect("tween_completed",self,"_on_tween_complete")
+	
+	# get the position based on the pos key given
+	var mpos
+	match pos_key:
+		"START": # the sprite's starting position
+			mpos = start_pos
+		"SELF_FRONT": # the front position of themself
+			mpos = front.global_position
+		"TARGET_FRONT": # the front of the target
+			mpos = target[0].front.global_position
+		_: # in case the pos key is mistyped
+			print("I'm not sure... stepping back...")
+			mpos = back.global_position
+	
+	# start the interpolation
+	newTween.interpolate_property(sprite, "global_position", sprite.global_position, mpos, 1,Tween.TRANS_LINEAR,Tween.EASE_IN)
+	newTween.start()
+
 func createDamageLabel(val):
 	var n = damLabel.instance()
 	n.get_node("Label").text = str(val)
@@ -160,11 +175,6 @@ func createDamageLabel(val):
 #	print(str(n.position))
 	add_child(n)
 
-func move_sprite(pos,type="run",tween_speed=1,trans_type=Tween.TRANS_LINEAR,ease_type=Tween.EASE_OUT_IN):
-	if type == "run":
-		$battlerTween.interpolate_property(sprite, "global_position", sprite.global_position, pos, tween_speed, trans_type, ease_type)
-		$battlerTween.start()
-
 func resetStat(which):
 	#which accepts a string
 	match which:
@@ -173,29 +183,20 @@ func resetStat(which):
 		"speed": speed = _speed
 		_: print("didnt catcht that chief, no stat reset")
 
-
-func _on_battlerTween_tween_completed(object, key):
-	print("DONE!! FUCK YOU")
-	if animating: 
-		moved = true
-		$battlerTween.remove_all()
+func _on_tween_complete(object, key):
+	activetween.queue_free()
+	if !animationStack.empty():
+		animationStack.pop_front()
 	else:
+		emit_signal("cleared_animation_stack")
 		battlerAnim.play("idle")
-	if animationStack.empty():
-		done = true
-		moved = false
-		battlerAnim.play("idle")
+		animating = false
+	processingStack = false
 
 func _on_battlerAnim_animation_finished(anim_name):
 	if !animationStack.empty():
 		animationStack.pop_front()
-		moved = false
-		#print("one stack cleared... " + str(animationStack.size()) + " remaining")
-#	if anim_name == animation:
-#		animating = false
-#		animation = null
-#		battlerAnim.play("idle")
-#		move_sprite(start_pos)
+		processingStack = false
 	if anim_name == "hurt":
 		battlerAnim.play("idle")
 

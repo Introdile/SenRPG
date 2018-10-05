@@ -37,7 +37,7 @@ func _ready():
 			ally.append(i)
 			var nui = charUI.instance()
 			nui.attachedChar = i
-			nui.rect_position = Vector2(652,652)
+			nui.rect_position = Vector2(652,452)
 			ui.add_child(nui)
 		i.connect("deal_damage",battleFunc,"_deal_damage")
 		i.connect("cleared_animation_stack",self,"_on_battler_clearanimstacks")
@@ -57,14 +57,14 @@ func _process(delta):
 			# CHOOSE THE FOE'S ACTION
 			for i in foes:
 				i.target.append(ally[0])
-				i.action = Global_DatabaseReader.get_from_database(0,"ability")
-			print("foe has selected action " + Global_DatabaseReader.get_from_database(0,"ability")["name"])
+				i.action = Global_DatabaseReader.get_from_database(1,"ability")
+			print("foe has selected action " + foes[0].action["name"])
 			changeState(battleState.PLAN)
 		battleState.PLAN:
 			
 			sl = "Please choose an action"
 			# LET THE PLAYER CHOOSE THEIR ACTION
-			pass
+			pass	
 		battleState.TARGET:
 			sl = "Please select a target(s)"
 			pass

@@ -51,11 +51,11 @@ tracks/2/keys = {
 "transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [  ],
-"method": "queue_free()"
+"method": "queue_free"
 } ]
 }
 
-[node name="floatLabel" type="Node2D"]
+[node name="floatLabel" type="Node2D" index="0"]
 
 _sections_unfolded = [ "Rect", "Transform" ]
 

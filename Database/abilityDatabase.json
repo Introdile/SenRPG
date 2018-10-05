@@ -22,18 +22,21 @@
 		"power": 1.0,
 		"effects": [],
 		"animation": [
-			{ "animation": "attack", "pos": "ENEMY_FRONT", "move_type": "run" },
+			{ "key": "move", "pos":"TARGET_FRONT", "move_type": "run" },
+			{ "key": "animation", "animation": "attack"},
 		],
 		"cooldown": 0,
 	},
 	"1": {
-		"name": "Big Strike",
-		"description": "A big ol attack that deals [color=red]200[/color]% damage.",
+		"name": "Shoot",
+		"description": "A basic ranged physical attack.",
 		"icon": 0,
 		"type": "Damage",
-		"power": 10.0,
-		"effects": [
-			{ "effectID": "1", "effectTar": "1" },
+		"power": 1.0,
+		"effects": [],
+		"animation": [
+			{ "key": "move", "pos":"SELF_FRONT", "move_type": "run" },
+			{ "key": "animation", "animation": "attack" },
 		],
 		"cooldown": 2.0
 	},

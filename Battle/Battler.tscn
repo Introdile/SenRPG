@@ -98,7 +98,6 @@ position = Vector2( -10, 0 )
 texture = ExtResource( 2 )
 vframes = 3
 hframes = 8
-frame = 1
 _sections_unfolded = [ "Animation", "Offset", "Transform" ]
 
 [node name="battlerArea" type="Area2D" parent="." index="1"]
@@ -134,16 +133,7 @@ position = Vector2( 50, -60 )
 texture = ExtResource( 3 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="battlerTween" type="Tween" parent="." index="4"]
-
-repeat = false
-playback_process_mode = 1
-playback_speed = 1.0
-playback/active = false
-playback/repeat = false
-playback/speed = 1.0
-
-[node name="battlerInfo" type="Control" parent="." index="5"]
+[node name="battlerInfo" type="Control" parent="." index="4"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -175,7 +165,7 @@ main_color = Color( 1, 0.859619, 0.101563, 1 )
 gain_color = Color( 0, 0.765625, 1, 1 )
 lose_color = Color( 1, 0.368134, 0.199219, 1 )
 
-[node name="positions" type="Node2D" parent="." index="6"]
+[node name="positions" type="Node2D" parent="." index="5"]
 
 _sections_unfolded = [ "Transform" ]
 
@@ -189,7 +179,7 @@ _sections_unfolded = [ "Transform", "Z Index" ]
 position = Vector2( -70, 0 )
 _sections_unfolded = [ "Transform", "Z Index" ]
 
-[node name="Label" type="Label" parent="." index="7"]
+[node name="Label" type="Label" parent="." index="6"]
 
 visible = false
 anchor_left = 0.0
@@ -211,7 +201,5 @@ lines_skipped = 0
 max_lines_visible = -1
 
 [connection signal="animation_finished" from="battlerAnim" to="." method="_on_battlerAnim_animation_finished"]
-
-[connection signal="tween_completed" from="battlerTween" to="." method="_on_battlerTween_tween_completed"]
 
 
