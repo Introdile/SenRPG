@@ -155,8 +155,12 @@ func move_sprite(pos_key):
 			mpos = start_pos
 		"SELF_FRONT": # the front position of themself
 			mpos = front.global_position
+		"SELF_BACK": # the back position of themself
+			mpos = back.global_position	
 		"TARGET_FRONT": # the front of the target
 			mpos = target[0].front.global_position
+		"TARGET_BACK": # the back of the target
+			mpos = target[0].back.global_position
 		_: # in case the pos key is mistyped
 			print("I'm not sure... stepping back...")
 			mpos = back.global_position
@@ -174,14 +178,6 @@ func createDamageLabel(val):
 	n.translate(Vector2(nx,ny))
 #	print(str(n.position))
 	add_child(n)
-
-func resetStat(which):
-	#which accepts a string
-	match which:
-		"attack": attack = _attack
-		"defense": defense = _defense
-		"speed": speed = _speed
-		_: print("didnt catcht that chief, no stat reset")
 
 func _on_tween_complete(object, key):
 	activetween.queue_free()

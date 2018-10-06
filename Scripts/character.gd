@@ -1,29 +1,56 @@
 extends Node2D
 
-#var stats = {
-#	health: 10,
-#	might: 10,
-#	tough: 10,
-#	power: 10,
-#	ward: 10,
-#	speed: 10,
-#}
+var database_raw
 
-#export(int) var health = 11
-#export(int) var might = 12
-#export(int) var tough = 13
-#export(int) var power = 14
-#export(int) var ward = 15
-#export(int) var speed = 16
+# 
+var char_name
+var char_icon # accepts an res:// path to the icon
+var char_diet
 
-func _ready():
-	pass
-#	_set_base_stats()
+var char_battler_scene
 
-#func _set_base_stats():
-#	stats[health] = health
-#	stats[might] = might
-#	stats[tough] = tough
-#	stats[power] = power
-#	stats[ward] = ward
-#	stats[speed] = speed
+var char_class
+var class_role
+
+# skills
+var skill_list = []
+
+# hp/adr
+var base_health
+var mod_health
+
+var adrenaline = 100 # adrenaline max never changes
+
+# physical stats
+var base_might # influences attack damage
+var mod_might
+
+var base_tough # influences phys damage mitigation
+var mod_tough
+
+# magical stats
+var base_power # influences spell damage
+var mod_power
+
+var base_ward # influences magic damage mitigation
+var mod_ward
+
+var base_speed # influences position in turn order
+var mod_speed
+
+func load_info_from_database(which,id):
+	# which should be a string of either "character" or "enemy"
+	database_raw = Global_DatabaseReader.get_from_database(id,which)
+
+func set_from_raw():
+	char_name = database_raw["name"]
+	char_icon = database_raw["icon"]
+	base_health = database_raw["max_hp"]
+	
+	base_might = database_raw["might"]
+	base_tough = database_raw["tough"]
+	
+	base_power = database_raw["power"]
+	base_ward = database_raw["ward"]
+	
+	base_speed = database_raw["speed"]

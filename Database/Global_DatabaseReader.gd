@@ -2,7 +2,7 @@ extends Node
 
 var ability_database = "res://Database/abilityDatabase.json"
 var effect_database = "res://Database/effectDatabase.json"
-var character_database = ""
+var character_database = "res://Database/characterDatabase.json"
 
 func get_from_database(id,database):
 	var data = {}

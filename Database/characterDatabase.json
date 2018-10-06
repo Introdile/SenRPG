@@ -1,0 +1,14 @@
+{
+	"0": {
+		"name": "Test Character",
+		"class": "Test Class"
+		"max_hp": 32,
+		"might": 8,
+		"tough": 8,
+		"power": 8,
+		"ward": 8,
+		"speed": 8,
+		"abilities": []
+		"equips": []
+	},
+}
