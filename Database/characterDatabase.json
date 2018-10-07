@@ -1,14 +1,18 @@
 {
 	"0": {
-		"name": "Test Character",
-		"class": "Test Class"
+		"name": "Ren-da",
+		"icon": "res://Assets/Portraits/renda_portraits.png",
+		"class": "Bodyguard",
+		"diet": "CARNIVORE",
+		"role": "DAMAGE",
+		"path_to_battler": "res://Battle/Renda.tscn",
 		"max_hp": 32,
-		"might": 8,
+		"might": 8W,
 		"tough": 8,
 		"power": 8,
 		"ward": 8,
 		"speed": 8,
-		"abilities": []
-		"equips": []
+		"abilities": [0,1],
+		"equips": [],
 	},
 }

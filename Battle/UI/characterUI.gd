@@ -12,14 +12,11 @@ onready var abilityGrid = get_node("Panel/mainContainer/infoContainer/abilityCon
 func _ready():
 	hpBar.addAmount(1000)
 	if attachedChar == null:
-		print("I don't have any character attached! Yet?")
+		print("I don't have any character attached!")
 		self.queue_free()
 		return
 	
 	attachedChar.connect("hp_changed",self,"updateHP")
-	
-#	attachedChar = get_node(attachedChar)
-	print("Attached to " + str(attachedChar))
 	
 	update_icon(null)
 

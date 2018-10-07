@@ -1,4 +1,4 @@
-extends "res://Scripts/character.gd"
+extends Node2D
 
 export(bool) var flip = false
 
@@ -46,8 +46,12 @@ onready var damLabel = preload("res://Prefabs/floatLabel.tscn")
 onready var front = get_node("positions/front")
 onready var back = get_node("positions/back")
 
+onready var characterScript = preload("res://Scripts/character.gd")
+var charInstance
+
 func _ready():
 	randomize()
+	
 	start_pos = sprite.global_position
 	
 	hp = max_hp
@@ -65,8 +69,6 @@ func _ready():
 		
 		front.position = Vector2(-front.position.x, 0)
 		back.position = Vector2(-back.position.x, 0)
-#	print(self.name + " front: "+ str(front.global_position))
-#	print(self.name + " back: "+ str(back.global_position))
 
 func _process(delta):
 	$Label.text = "position: " + str(sprite.global_position) + "\nstart_pos: " + str(start_pos)
@@ -101,19 +103,21 @@ func _process(delta):
 				match animationStack.front()["key"]:
 					"move":
 						
-						move_sprite(animationStack.front()["pos"])
+						move_sprite(animationStack.front()["pos"],animationStack.front()["speed"])
 						processingStack = true
 						
 					"animation":
 						
-						battlerAnim.play(animationStack.front()["animation"])
-						processingStack = true
+						if battlerAnim.has_animation(animationStack.front()["animation"]):
+							battlerAnim.play(animationStack.front()["animation"])
+							processingStack = true
+						else:
+							print("Animation not found: " + animationStack.front()["animation"])
+							animationStack.pop_front()
 						
 		else:
 			if !processingStack:
-				print("Animation stack cleared")
-#				emit_signal("cleared_animation_stack")
-				move_sprite("START")
+				move_sprite("START",0.5)
 				processingStack = true
 	
 
@@ -126,10 +130,12 @@ func _process(delta):
 # sprite back to its original position and emit_signal animation_complete
 
 func performAction():
+	# fail safe in case an action wasn't selected
 	if action == null:
 		print("I have no action! :'(")
 		return false
 	
+	# loads up the animation stack
 	for i in action["animation"]:
 		animationStack.append(i)
 	
@@ -137,7 +143,7 @@ func performAction():
 	
 	animating = true
 
-func move_sprite(pos_key):
+func move_sprite(pos_key,tween_speed):
 	# pos_key accepts a string that indicates the position
 	# details on what pos_key can be in the match statement below
 	
@@ -166,7 +172,7 @@ func move_sprite(pos_key):
 			mpos = back.global_position
 	
 	# start the interpolation
-	newTween.interpolate_property(sprite, "global_position", sprite.global_position, mpos, 1,Tween.TRANS_LINEAR,Tween.EASE_IN)
+	newTween.interpolate_property(sprite, "global_position", sprite.global_position, mpos, tween_speed,Tween.TRANS_LINEAR,Tween.EASE_IN)
 	newTween.start()
 
 func createDamageLabel(val):

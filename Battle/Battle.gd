@@ -34,6 +34,7 @@ func _ready():
 		if i.name == "Foe" or i.name == "Foe2" or i.name == "Foe3":
 			foes.append(i)
 		if i.name == "Ally":
+			i.charInstance = Global_GameData.party[0]
 			ally.append(i)
 			var nui = charUI.instance()
 			nui.attachedChar = i

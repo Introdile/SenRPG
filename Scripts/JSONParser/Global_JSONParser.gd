@@ -6,7 +6,6 @@ func load_data(url):
 	if url == null: return
 	if !file.file_exists(url): return
 	
-	#var data = {}
 	file.open(url, File.READ)
 	
 	var data_text = file.get_as_text()
