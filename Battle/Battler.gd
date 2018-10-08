@@ -46,8 +46,7 @@ onready var damLabel = preload("res://Prefabs/floatLabel.tscn")
 onready var front = get_node("positions/front")
 onready var back = get_node("positions/back")
 
-onready var characterScript = preload("res://Scripts/character.gd")
-var charInstance
+var character
 
 func _ready():
 	randomize()
@@ -71,6 +70,10 @@ func _ready():
 		back.position = Vector2(-back.position.x, 0)
 
 func _process(delta):
+	if character == null:
+		print("I don't have a character!")
+		self.queue_free()
+	
 	$Label.text = "position: " + str(sprite.global_position) + "\nstart_pos: " + str(start_pos)
 	$Label.text += "\nanimating: " + str(animating)
 	if last_hp != hp:
@@ -119,6 +122,13 @@ func _process(delta):
 			if !processingStack:
 				move_sprite("START",0.5)
 				processingStack = true
+	
+
+func set_from_reference():
+	if character == null:
+		print("No reference set! :(")
+		self.queue_free()
+		return
 	
 
 ## ANIMATION HANDLING ##

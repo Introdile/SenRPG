@@ -30,11 +30,18 @@ var currentBattler = 0
 func _ready():
 	#TODO: uhhhhhh get ready bitches
 	changeState(battleState.START)
+	var allypos = get_tree().get_nodes_in_group("ally")
+	for i in Global_GameData.party:
+		var nbi = load(i.char_battler_scene)
+		var n = nbi.instance()
+		n.global_position = allypos[0].global_position
+		$Battlers.add_child(n)
 	for i in battlers:
-		if i.name == "Foe" or i.name == "Foe2" or i.name == "Foe3":
+		if i.name == "Foe":
+			i.character = Global_GameData.foeparty[0]
 			foes.append(i)
 		if i.name == "Ally":
-			i.charInstance = Global_GameData.party[0]
+			i.character = Global_GameData.party[0]
 			ally.append(i)
 			var nui = charUI.instance()
 			nui.attachedChar = i

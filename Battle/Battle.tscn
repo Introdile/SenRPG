@@ -31,20 +31,23 @@ _speed = 1
 [node name="Foe" parent="Battlers" index="1" instance=ExtResource( 3 )]
 
 position = Vector2( 400, 320 )
+_sections_unfolded = [ "Transform" ]
 max_hp = 250
 _defense = 16
 
-[node name="Foe2" parent="Battlers" index="2" instance=ExtResource( 3 )]
+[node name="AllyPos" type="Position2D" parent="Battlers" index="2" groups=[
+"ally",
+]]
 
-position = Vector2( 240, 250 )
-max_hp = 250
-_defense = 16
+position = Vector2( 860, 310 )
+_sections_unfolded = [ "Transform" ]
 
-[node name="Foe3" parent="Battlers" index="3" instance=ExtResource( 3 )]
+[node name="FoePos" type="Position2D" parent="Battlers" index="3" groups=[
+"foe",
+]]
 
-position = Vector2( 130, 420 )
-max_hp = 250
-_defense = 16
+position = Vector2( 400, 320 )
+_sections_unfolded = [ "Transform" ]
 
 [node name="UI" type="Control" parent="." index="1"]
 

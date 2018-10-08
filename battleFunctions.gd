@@ -8,7 +8,7 @@ static func _deal_damage(a,b,ab):
 	#b is the target
 	#ab is the ability
 	var dam = calculateDamage(a.attack,b.defense)
-	b.hp -= dam
+	b.character.removeHP(dam)
 
 
 static func calculateDamage(atk,def,boost=1.0):

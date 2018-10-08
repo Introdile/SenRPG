@@ -14,7 +14,7 @@ func load_data(url):
 	
 	var data_parse = JSON.parse(data_text)
 	if data_parse.error != OK:
-		print("Error on line " + str(data_parse.error_line) + ": " + data_parse.error_string)
+		print("Error on line " + str(data_parse.error_line) + " of " + url + ": " + data_parse.error_string)
 		return
 	
 	var data = data_parse.result

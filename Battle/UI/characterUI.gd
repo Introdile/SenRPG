@@ -16,7 +16,7 @@ func _ready():
 		self.queue_free()
 		return
 	
-	attachedChar.connect("hp_changed",self,"updateHP")
+	attachedChar.character.connect("hp_changed",self,"updateHP")
 	
 	update_icon(null)
 

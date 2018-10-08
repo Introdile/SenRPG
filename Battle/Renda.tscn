@@ -81,7 +81,6 @@ tracks/0/keys = {
 position = Vector2( 0, 0 )
 texture = ExtResource( 2 )
 hframes = 5
-frame = 0
 
 [node name="battlerAnim" parent="." index="2"]
 
