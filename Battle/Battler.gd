@@ -63,11 +63,7 @@ func _ready():
 	hpBar.addAmount(1000)
 	
 	if flip:
-		$battlerSprite.flip_h = flip
-		$battleAction.position = Vector2(-$battleAction.position.x,$battleAction.position.y)
-		
-		front.position = Vector2(-front.position.x, 0)
-		back.position = Vector2(-back.position.x, 0)
+		flip_battler()
 
 func _process(delta):
 	if character == null:
@@ -130,6 +126,14 @@ func set_from_reference():
 		self.queue_free()
 		return
 	
+
+func flip_battler():
+	if $battlerSprite.flip_h: $battlerSprite.flip_h = false
+	else: $battlerSprite.flip_h = true
+	$battleAction.position = Vector2(-$battleAction.position.x,$battleAction.position.y)
+	
+	front.position = Vector2(-front.position.x, 0)
+	back.position = Vector2(-back.position.x, 0)
 
 ## ANIMATION HANDLING ##
 

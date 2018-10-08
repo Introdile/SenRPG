@@ -11,6 +11,8 @@ var char_battler_scene
 var char_class
 var class_role
 
+var level
+
 # skills
 var ability_list = []
 
@@ -61,6 +63,8 @@ func load_info_from_database(which,id):
 	
 	base_speed = database_raw["speed"]
 	
+	level = 1
+	
 	return self
 
 func removeHP(value):
@@ -76,7 +80,3 @@ func addHP(value):
 func load_abilities():
 	for i in database_raw["abilities"]:
 		ability_list.append(i)
-
-func load_info_from_gamedata():
-	# load from saved gamedata instead of the database
-	pass

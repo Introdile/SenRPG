@@ -20,7 +20,7 @@ onready var ui = get_node("UI")
 onready var stateLabel = get_node("UI/stateLabel")
 var sl = ""
 
-onready var battlers = get_tree().get_nodes_in_group("battler")
+onready var battlers #= get_tree().get_nodes_in_group("battler")
 var foes = []
 var ally = []
 var actionOrder = []
@@ -31,24 +31,50 @@ func _ready():
 	#TODO: uhhhhhh get ready bitches
 	changeState(battleState.START)
 	var allypos = get_tree().get_nodes_in_group("ally")
+	var foepos = get_tree().get_nodes_in_group("foe")
+	
 	for i in Global_GameData.party:
+		
+		# loads the character battler scene 
+		# TODO: battler scene should construct animations on the fly
 		var nbi = load(i.char_battler_scene)
 		var n = nbi.instance()
+		
+		# set the reference character (from the gamedata) and the position of the battler
+		n.character = i
 		n.global_position = allypos[0].global_position
+		n.name = n.character.char_name
+		# add it to the scene,,,
 		$Battlers.add_child(n)
-	for i in battlers:
-		if i.name == "Foe":
-			i.character = Global_GameData.foeparty[0]
-			foes.append(i)
-		if i.name == "Ally":
-			i.character = Global_GameData.party[0]
-			ally.append(i)
-			var nui = charUI.instance()
-			nui.attachedChar = i
-			nui.rect_position = Vector2(652,452)
-			ui.add_child(nui)
-		i.connect("deal_damage",battleFunc,"_deal_damage")
-		i.connect("cleared_animation_stack",self,"_on_battler_clearanimstacks")
+		
+		# this sets up the ui
+		var nui = charUI.instance()
+		nui.attachedChar = n
+		nui.rect_position = Vector2(652,452) #TODO: add it to a container that'll handle this automatically
+		ui.add_child(nui)
+		
+		if n.global_position.x > get_viewport().size.x / 2:
+			n.flip_battler()
+		
+		ally.append(n)
+		n.connect("deal_damage",battleFunc,"_deal_damage")
+		n.connect("cleared_animation_stack",self,"_on_battler_clearanimstacks")
+	
+	for i in Global_GameData.foeparty:
+		# pretty much as above but for enemies
+		# except without setting up a ui for them
+		var nbi = load(i.char_battler_scene)
+		var n = nbi.instance()
+		n.character = i
+		n.global_position = foepos[0].global_position
+		n.name = n.character.char_name
+		$Battlers.add_child(n)
+		
+		foes.append(n)
+		n.connect("deal_damage",battleFunc,"_deal_damage")
+		n.connect("cleared_animation_stack",self,"_on_battler_clearanimstacks")
+	
+	battlers = get_tree().get_nodes_in_group("battler")
 	battlers.sort_custom(battleFunc,"isSpeedGreater")
 
 func _process(delta):
@@ -77,7 +103,6 @@ func _process(delta):
 			sl = "Please select a target(s)"
 			pass
 		battleState.ACTION:
-			#sl = "Turn commencing..."
 			if actionOrder.empty():
 				for i in battlers:
 					actionOrder.append(i)
@@ -87,10 +112,6 @@ func _process(delta):
 			if !actionOrder.front().animating:
 				sl = actionOrder.front().name + " currently acting..."
 				actionOrder.front().performAction()
-			
-#			if !battlers[currentBattler].animating:
-#				sl = battlers[currentBattler].name + " currently acting..."
-#				battlers[currentBattler].performAction()
 	
 	stateLabel.text = sl
 
@@ -105,19 +126,10 @@ func _on_battler_clearanimstacks():
 		else:
 			actionOrder.pop_front()
 			changeState(battleState.FOE)
-#		if currentBattler+1 < battlers.size():
-#			currentBattler += 1
-#		else:
-#			changeState(battleState.FOE)
-#			currentBattler = 0
 
 func _on_attackButton_pressed():
 	ally[0].action = Global_DatabaseReader.get_from_database(0,"ability")
 	ally[0].target.append(foes[0])
-	
-	#foes[0].performAction()
-#	print(ally[0].action["animation"])
-#	ally[0].performAction()
 
 func _on_proceedButton_pressed():
 	if state == battleState.PLAN:
