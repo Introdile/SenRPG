@@ -29,6 +29,9 @@ var animating = false
 var start_pos
 var animation
 
+# damage variables
+var damageStack = []
+
 signal deal_damage
 signal cleared_animation_stack
 signal hp_changed
@@ -72,27 +75,34 @@ func _process(delta):
 	
 	$Label.text = "position: " + str(sprite.global_position) + "\nstart_pos: " + str(start_pos)
 	$Label.text += "\nanimating: " + str(animating)
-	if last_hp != hp:
-		if last_hp > hp:
+	
+	# Checks if there's a change with the HP
+	if character.hp_last_at != character.current_health:
+		if character.hp_last_at > character.current_health:
+			# Plays the hurt animation
 			if battlerAnim.current_animation != "hurt": battlerAnim.play("hurt")
-			var change = float(last_hp - hp)
-			change = (change / max_hp) * 100
+			# Converts the damage number to a percentage, then signals the HP change
+			var change = float(character.hp_last_at - character.current_health)
+			change = (change / character.base_health) * 100
 			emit_signal("hp_changed",change,"down")
+			# Updates the hp bar attached to the battler and creates a damage label
 			hpBar.removeAmount(change)
-			createDamageLabel(last_hp - hp)
-			last_hp = hp
-		if last_hp < hp:
-			var change = float(hp - last_hp)
-			change = (change / max_hp) * 100
+			createDamageLabel(character.hp_last_at - character.current_health)
+			character.hp_last_at = character.current_health
+		
+		#Pretty much same as above
+		if character.hp_last_at < character.current_health:
+			var change = float(character.current_health - character.hp_last_at)
+			change = (change / character.base_health) * 100
 			emit_signal("hp_changed",change,"up")
 			hpBar.addAmount(change)
-			createDamageLabel(hp - last_hp)
-			last_hp = hp
+			createDamageLabel(character.current_health - character.hp_last_at)
+			character.hp_last_at = character.current_health
 	
-	if Input.is_action_just_pressed("ui_up"):
-		adBar.addAmount(10)
-	if Input.is_action_just_pressed("ui_down"):
-		adBar.removeAmount(10)
+#	if Input.is_action_just_pressed("ui_up"):
+#		adBar.addAmount(10)
+#	if Input.is_action_just_pressed("ui_down"):
+#		adBar.removeAmount(10)
 	
 	## ANIMATION HANDLING ##
 	
@@ -153,6 +163,9 @@ func performAction():
 	for i in action["animation"]:
 		animationStack.append(i)
 	
+	for i in action["damage"]:
+		damageStack.append(i)
+	
 	print(name + " performing animation for ability " + action["name"] + ". Anim stack size = " + str(animationStack.size()))
 	
 	animating = true
@@ -204,6 +217,12 @@ func _on_tween_complete(object, key):
 	if !animationStack.empty():
 		animationStack.pop_front()
 	else:
+		if !damageStack.empty():
+			print("Not enough animations to clear all damage stacks... clearing manually")
+			while !damageStack.empty():
+				emit_signal("deal_damage", self, target[0], damageStack.front())
+				damageStack.pop_front()
+		
 		emit_signal("cleared_animation_stack")
 		battlerAnim.play("idle")
 		animating = false
@@ -217,4 +236,6 @@ func _on_battlerAnim_animation_finished(anim_name):
 		battlerAnim.play("idle")
 
 func emit_damage():
-	emit_signal("deal_damage", self, target[0], action)
+	if !damageStack.empty():
+		emit_signal("deal_damage", self, target[0], damageStack.front())
+		damageStack.pop_front()

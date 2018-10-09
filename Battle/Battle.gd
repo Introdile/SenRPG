@@ -28,6 +28,7 @@ var actionOrder = []
 var currentBattler = 0
 
 func _ready():
+	
 	#TODO: uhhhhhh get ready bitches
 	changeState(battleState.START)
 	var allypos = get_tree().get_nodes_in_group("ally")

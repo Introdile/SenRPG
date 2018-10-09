@@ -42,8 +42,10 @@ func updateHP(amount,uod):
 	# amount should be the raw amount of hp lost/gained
 	# uod is up or down
 	match uod:
-		"up": hpBar.addAmount(amount)
-		"down": hpBar.removeAmount(amount)
+		"up": 
+			hpBar.addAmount(amount)
+		"down": 
+			hpBar.removeAmount(amount)
 	
 #	var change = (amount / attachedChar.max_hp) * 100
 #

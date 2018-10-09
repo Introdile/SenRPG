@@ -74,7 +74,7 @@ tracks/0/keys = {
 "values": [ 0, 1 ]
 }
 
-[node name="Battler" index="0" instance=ExtResource( 1 )]
+[node name="Battler" instance=ExtResource( 1 )]
 
 [node name="battlerSprite" parent="." index="0"]
 

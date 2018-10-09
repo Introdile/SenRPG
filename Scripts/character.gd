@@ -54,6 +54,7 @@ func load_info_from_database(which,id):
 	char_icon = database_raw["icon"]
 	base_health = database_raw["max_hp"]
 	current_health = base_health
+	hp_last_at = current_health
 	
 	base_might = database_raw["might"]
 	base_tough = database_raw["tough"]
@@ -70,11 +71,17 @@ func load_info_from_database(which,id):
 func removeHP(value):
 	hp_last_at = current_health
 	current_health -= value
-	emit_signal("hp_changed",value,"down")
+	
+	print(char_name + " HP: " + str(current_health) + " / " + str(base_health))
+	
+	var chg = (value / base_health) * 100
+	emit_signal("hp_changed",chg,"down")
 
 func addHP(value):
 	hp_last_at = current_health
 	current_health += value
+	
+	var chg = (value / base_health) * 100
 	emit_signal("hp_changed",value,"up")
 
 func load_abilities():
