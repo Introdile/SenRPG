@@ -85,7 +85,7 @@ func _process(delta):
 			sl = "Setting things up..."
 			# SET UP THE BATTLERS
 			for i in battlers:
-				i.hp = i.max_hp
+				i.character.current_health = i.character.base_health
 			changeState(battleState.FOE)
 		battleState.FOE:
 			sl = "The foe is selecting their action."
@@ -127,6 +127,10 @@ func _on_battler_clearanimstacks():
 		else:
 			actionOrder.pop_front()
 			changeState(battleState.FOE)
+
+func _on_ability_chosen(ab,ch):
+	ch.action = ab
+	ch.target.append(foes[0])
 
 func _on_attackButton_pressed():
 	ally[0].action = Global_DatabaseReader.get_from_database(0,"ability")

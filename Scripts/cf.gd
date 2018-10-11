@@ -9,4 +9,4 @@ func id_to_grid(id,grid_size,columns):
 	var y_pos = floor(id/columns)
 	var x_pos = id - (y_pos*columns)
 	
-	return Rect2(x_pos,y_pos,grid_size,grid_size)
+	return Rect2(x_pos * grid_size,y_pos * grid_size,grid_size,grid_size)

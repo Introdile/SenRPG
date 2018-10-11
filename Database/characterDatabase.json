@@ -12,7 +12,7 @@
 		"power": 8,
 		"ward": 8,
 		"speed": 8,
-		"abilities": [0,1],
+		"abilities": [0,1,2],
 		"equips": [],
 	},
 	"1": {

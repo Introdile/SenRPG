@@ -1,7 +1,7 @@
 extends Node
 
 static func isSpeedGreater(a,b):
-	return a.speed > b.speed
+	return a.character.base_speed > b.character.base_speed
 
 static func _deal_damage(a,b,ds):
 	#a is the attacker

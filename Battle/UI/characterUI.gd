@@ -2,11 +2,11 @@ extends Control
 
 var attachedChar
 
-onready var portrait = get_node("Panel/mainContainer/characterPortrait")
-onready var hpBar = get_node("Panel/mainContainer/infoContainer/hpBar")
-onready var adrBar = get_node("Panel/mainContainer/infoContainer/adrBar")
+onready var portrait = get_node("mainContainer/characterPortrait")
+onready var hpBar = get_node("mainContainer/infoContainer/hpBar")
+onready var adrBar = get_node("mainContainer/infoContainer/adrBar")
 
-onready var abilityGrid = get_node("Panel/mainContainer/infoContainer/abilityContainer")
+onready var abilityGrid = get_node("mainContainer/infoContainer/abilityContainer")
 onready var abilityButton = preload("res://Battle/UI/uiAbilityButton.tscn")
 
 func _ready():
@@ -15,7 +15,6 @@ func _ready():
 		print("I don't have any character attached!")
 		self.queue_free()
 		return
-	
 	update_abilities(attachedChar.character.ability_list)
 	attachedChar.character.connect("hp_changed",self,"updateHP")
 	
@@ -45,6 +44,8 @@ func update_abilities(ability_list):
 		if n < 6:
 			var nab = abilityButton.instance()
 			nab.attach_ability(i)
+			nab.uiParent = self
+			nab.connect("ability_pressed",get_parent().get_parent(),"_on_ability_chosen")
 			print("Created button for ability " + i["name"])
 			abilityGrid.add_child(nab)
 			n += 1

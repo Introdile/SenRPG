@@ -36,7 +36,7 @@
 	"1": {
 		"name": "Shoot",
 		"description": "A basic ranged physical attack.",
-		"icon": 0,
+		"icon": 1,
 		"type": "Damage",
 		"damage": [
 			{ "type": "HP_DAMAGE", "element": "PHYSICAL", "based_stat": "MIGHT","power": 1.0 },
@@ -49,15 +49,23 @@
 		"cooldown": 2.0,
 	},
 	"2": {
-		"name": "Fire Shield",
+		"name": "Flickering Strike",
 		"description": "Puts up a fire-infused shield, protecting the user and dealing damage to any who dare attack them.",
-		"icon": "res://Assets/AbilityIcons/protect-red-1.png",
+		"icon": 0,
 		"type": "Buff",
-		"power": 2.0,
-		"effects": [
-			{ "effectID": "-1", "effectTar": "-1" },
+		"damage": [
+			{ "type": "HP_DAMAGE", "element": "PHYSICAL", "based_stat": "MIGHT","power": 1.5 },
+			],
+		"effects": [],
+		"animation": [
+			{ "key": "move", "pos":"SELF_FRONT", "move_type": "run", "speed": 0.5 },
+			{ "key": "move", "pos":"TARGET_FRONT", "move_type": "run", "speed": 0.1 },
+			{ "key": "move", "pos":"TARGET_BACK", "move_type": "run", "speed": 0.1 },
+			{ "key": "move", "pos":"TARGET_FRONT", "move_type": "run", "speed": 0.1 },
+			{ "key": "move", "pos":"TARGET_BACK", "move_type": "run", "speed": 0.1 },
+			{ "key": "move", "pos":"TARGET_FRONT", "move_type": "run", "speed": 0.1 },
+			{ "key": "animation", "animation": "attack" },
 		],
-		"animation": [],
 		"cooldown": 4.0,
 	},
 	"3": {

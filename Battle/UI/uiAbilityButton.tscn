@@ -1,18 +1,20 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://Assets/AbilityIcons/iconframe.png" type="Texture" id=1]
-[ext_resource path="res://uiAbilityButton.gd" type="Script" id=2]
-[ext_resource path="res://Assets/AbilityIcons/abilityIconSheet.png" type="Texture" id=3]
+[ext_resource path="res://Assets/UI/iconframe.png" type="Texture" id=1]
+[ext_resource path="res://Assets/UI/iconframe_pressed.png" type="Texture" id=2]
+[ext_resource path="res://Assets/UI/iconframe_hover.png" type="Texture" id=3]
+[ext_resource path="res://uiAbilityButton.gd" type="Script" id=4]
+[ext_resource path="res://Assets/AbilityIcons/abilityIconSheet.png" type="Texture" id=5]
 
 [sub_resource type="AtlasTexture" id=1]
 
 flags = 0
-atlas = ExtResource( 3 )
-region = Rect2( 0, 0, 32, 32 )
+atlas = ExtResource( 5 )
+region = Rect2( 32, 0, 32, 32 )
 margin = Rect2( 0, 0, 0, 0 )
 filter_clip = false
 
-[node name="uiAbilityButton" type="TextureButton" index="0"]
+[node name="uiAbilityButton" type="TextureButton"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -32,7 +34,9 @@ enabled_focus_mode = 2
 shortcut = null
 group = null
 texture_normal = ExtResource( 1 )
-script = ExtResource( 2 )
+texture_pressed = ExtResource( 2 )
+texture_hover = ExtResource( 3 )
+script = ExtResource( 4 )
 _sections_unfolded = [ "Textures" ]
 
 [node name="uiAbilityIcon" type="TextureRect" parent="." index="0"]
@@ -44,8 +48,8 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 5.0
 margin_top = 5.0
-margin_right = 45.0
-margin_bottom = 45.0
+margin_right = 37.0
+margin_bottom = 37.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1

@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/iconframe.png-24b13a46714abcc3b4ab791722d7a0b8.stex"
+path="res://.import/iconframe.png-3a1888de53e9b5abbe87d2f23d5ce0ae.stex"
 
 [deps]
 
-source_file="res://Assets/AbilityIcons/iconframe.png"
-dest_files=[ "res://.import/iconframe.png-24b13a46714abcc3b4ab791722d7a0b8.stex" ]
+source_file="res://Assets/UI/iconframe.png"
+dest_files=[ "res://.import/iconframe.png-3a1888de53e9b5abbe87d2f23d5ce0ae.stex" ]
 
 [params]
 

@@ -2,18 +2,18 @@ extends Node2D
 
 export(bool) var flip = false
 
-export(int) var max_hp = 20
-var hp
-var last_hp
-
-export(int) var _attack = 10
-var attack
-
-export(int) var _defense = 5
-var defense
-
-export(int) var _speed = 2
-var speed
+#export(int) var max_hp = 20
+#var hp
+#var last_hp
+#
+#export(int) var _attack = 10
+#var attack
+#
+#export(int) var _defense = 5
+#var defense
+#
+#export(int) var _speed = 2
+#var speed
 
 var abilityList = [0,1]
 
@@ -56,12 +56,12 @@ func _ready():
 	
 	start_pos = sprite.global_position
 	
-	hp = max_hp
-	last_hp = hp
-	
-	attack = _attack
-	defense = _defense
-	speed = _speed
+#	hp = max_hp
+#	last_hp = hp
+#
+#	attack = _attack
+#	defense = _defense
+#	speed = _speed
 	
 	hpBar.addAmount(1000)
 	

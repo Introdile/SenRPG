@@ -3,11 +3,17 @@ extends TextureButton
 signal ability_pressed
 
 onready var ab_icon = get_node("uiAbilityIcon")
-var attachedAbility
-var IDregion = Rect2()
+onready var ab_sheet = preload("res://Assets/AbilityIcons/abilityIconSheet.png")
+
+var attachedAbility = {}
+var uiParent
 
 func _ready():
-	set_region()
+	_set_up_bitmap()
+	$uiAbilityIcon.texture = $uiAbilityIcon.texture.duplicate()
+	if attachedAbility.has("icon"):
+		update_icon(attachedAbility["icon"])
+	else: self.queue_free()
 
 func attach_ability(newAbility):
 	attachedAbility = newAbility
@@ -15,10 +21,14 @@ func attach_ability(newAbility):
 		update_icon(attachedAbility["icon"])
 
 func update_icon(id,gs=32,noc=8):
-	IDregion = cf.id_to_grid(id,gs,noc)
+	print("Icon set for " + attachedAbility["name"])
+	$uiAbilityIcon.texture.region = cf.id_to_grid(id,gs,noc)
 
-func set_region():
-	ab_icon.texture.region = IDregion
+func _set_up_bitmap():
+	var newBitmap = BitMap.new()
+	newBitmap.create(Vector2(42,42))
+	newBitmap.set_bit_rect(Rect2(0,0,42,42),true)
+	texture_click_mask = newBitmap
 
 func _on_uiAbilityButton_pressed():
-	emit_signal("ability_pressed",attachedAbility)
+	emit_signal("ability_pressed",attachedAbility,uiParent.attachedChar)
