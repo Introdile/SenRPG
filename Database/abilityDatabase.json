@@ -30,9 +30,6 @@
 		"animation": [
 			{ "key": "move", "pos":"TARGET_FRONT", "move_type": "run", "speed": 1.0 },
 			{ "key": "animation", "animation": "attack"},
-			{ "key": "animation", "animation": "attack" },
-			{ "key": "animation", "animation": "attack" },
-			{ "key": "animation", "animation": "attack" },
 		],
 		"cooldown": 0,
 	},
@@ -42,9 +39,6 @@
 		"icon": 0,
 		"type": "Damage",
 		"damage": [
-			{ "type": "HP_DAMAGE", "element": "PHYSICAL", "based_stat": "MIGHT","power": 1.0 },
-			{ "type": "HP_DAMAGE", "element": "PHYSICAL", "based_stat": "MIGHT","power": 1.0 },
-			{ "type": "HP_DAMAGE", "element": "PHYSICAL", "based_stat": "MIGHT","power": 1.0 },
 			{ "type": "HP_DAMAGE", "element": "PHYSICAL", "based_stat": "MIGHT","power": 1.0 },
 		],
 		"effects": [],

@@ -64,6 +64,8 @@ func load_info_from_database(which,id):
 	
 	base_speed = database_raw["speed"]
 	
+	load_abilities()
+	
 	level = 1
 	
 	return self
@@ -86,4 +88,4 @@ func addHP(value):
 
 func load_abilities():
 	for i in database_raw["abilities"]:
-		ability_list.append(i)
+		ability_list.append(Global_DatabaseReader.ability[i])

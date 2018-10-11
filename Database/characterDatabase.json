@@ -28,7 +28,7 @@
 		"power": 8,
 		"ward": 8,
 		"speed": 8,
-		"abilities": [0,1],
+		"abilities": [1,0],
 		"equips": [],
 	},
 }
