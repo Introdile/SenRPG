@@ -1,13 +1,12 @@
 {
 	"-1": {
 		"name": "Example Ability",
-		"icon": "res://icon.png",
+		"icon": "a number indicating the id of the icon",
 		"description": "This describes the ability.",
-		"targets": "SELF",
-		"type": "DAMAGE",
-		"element": "NONE",
+		"targets": "ONE_FOE, ONE_ALLY, ALL_FOES, ALL_ALLIES, SELF",
+		"type": "DAMAGE, BUFF, DEBUFF, HEAL",
 		"damage": [
-			{ "type": "HP_DAMAGE", "element": "PHYSICAL", "based_stat": "MIGHT","power": 1.0 }
+			{ "type": "HP_DAMAGE", "element": "PHYSICAL", "based_stat": "MIGHT, TOUGH, POWER, WARD","power": 1.0 }
 		],
 		"effects": [
 			{ "effectID": "-1" },
@@ -20,8 +19,8 @@
 		"name": "Attack",
 		"description": "A basic physical attack.",
 		"icon": 0,
-		"targets": "ONE_ENEMY",
-		"type": "Damage",
+		"targets": "ONE_FOE",
+		"type": "DAMAGE",
 		"element": "PHYSICAL",
 		"damage": [
 			{ "type": "HP_DAMAGE", "element": "PHYSICAL", "based_stat": "MIGHT","power": 1.0 },
@@ -37,7 +36,8 @@
 		"name": "Shoot",
 		"description": "A basic ranged physical attack.",
 		"icon": 1,
-		"type": "Damage",
+		"targets": "ONE_FOE",
+		"type": "DAMAGE",
 		"damage": [
 			{ "type": "HP_DAMAGE", "element": "PHYSICAL", "based_stat": "MIGHT","power": 1.0 },
 		],
@@ -52,7 +52,8 @@
 		"name": "Flickering Strike",
 		"description": "Puts up a fire-infused shield, protecting the user and dealing damage to any who dare attack them.",
 		"icon": 0,
-		"type": "Buff",
+		"targets": "ONE_FOE",
+		"type": "DAMAGE",
 		"damage": [
 			{ "type": "HP_DAMAGE", "element": "PHYSICAL", "based_stat": "MIGHT","power": 1.5 },
 			],

@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Battle/Battle.gd" type="Script" id=1]
 [ext_resource path="res://Assets/frame.png" type="Texture" id=2]
 [ext_resource path="res://Prefabs/fontILabel.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Assets/Fonts/Introdile.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://Assets/UI/select_pip.png" type="Texture" id=5]
 
 [sub_resource type="DynamicFont" id=1]
 
@@ -167,6 +168,20 @@ margin_top = 230.0
 margin_right = 876.0
 margin_bottom = 243.0
 text = "Player"
+
+[node name="selectPip" type="Sprite" parent="." index="3"]
+
+visible = false
+texture = ExtResource( 5 )
+
+[node name="Tween" type="Tween" parent="selectPip" index="0"]
+
+repeat = false
+playback_process_mode = 1
+playback_speed = 1.0
+playback/active = false
+playback/repeat = false
+playback/speed = 1.0
 
 [connection signal="pressed" from="UI/NPBack/attackButton" to="." method="_on_attackButton_pressed"]
 

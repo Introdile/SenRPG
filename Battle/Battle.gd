@@ -20,6 +20,8 @@ onready var ui = get_node("UI")
 onready var stateLabel = get_node("UI/stateLabel")
 var sl = ""
 
+onready var pip = get_node("selectPip")
+
 onready var battlers #= get_tree().get_nodes_in_group("battler")
 var foes = []
 var ally = []
@@ -60,6 +62,7 @@ func _ready():
 		ally.append(n)
 		n.connect("deal_damage",battleFunc,"_deal_damage")
 		n.connect("cleared_animation_stack",self,"_on_battler_clearanimstacks")
+		n.connect("interacted",self,"_on_battler_hover")
 	
 	for i in Global_GameData.foeparty:
 		# pretty much as above but for enemies
@@ -74,6 +77,7 @@ func _ready():
 		foes.append(n)
 		n.connect("deal_damage",battleFunc,"_deal_damage")
 		n.connect("cleared_animation_stack",self,"_on_battler_clearanimstacks")
+		n.connect("interacted",self,"_on_battler_hover")
 	
 	battlers = get_tree().get_nodes_in_group("battler")
 	battlers.sort_custom(battleFunc,"isSpeedGreater")
@@ -99,9 +103,10 @@ func _process(delta):
 			
 			sl = "Please choose an action"
 			# LET THE PLAYER CHOOSE THEIR ACTION
-			pass	
+			pass
 		battleState.TARGET:
 			sl = "Please select a target(s)"
+			if !$selectPip.visible: $selectPip.visible = true
 			pass
 		battleState.ACTION:
 			if actionOrder.empty():
@@ -128,13 +133,18 @@ func _on_battler_clearanimstacks():
 			actionOrder.pop_front()
 			changeState(battleState.FOE)
 
+func _on_battler_hover(object,event):
+	if state == battleState.TARGET:
+		if event == "hover":
+			if !$selectPip/Tween.is_active():
+				$selectPip/Tween.interpolate_property(pip,"global_position",pip.global_position,object.above.global_position,0.25,Tween.TRANS_LINEAR,Tween.EASE_IN)
+				$selectPip/Tween.start()
+
 func _on_ability_chosen(ab,ch):
 	ch.action = ab
-	ch.target.append(foes[0])
-
-func _on_attackButton_pressed():
-	ally[0].action = Global_DatabaseReader.get_from_database(0,"ability")
-	ally[0].target.append(foes[0])
+	if ab["targets"] == "ONE_FOE":
+		changeState(battleState.TARGET)
+#	ch.target.append(foes[0])
 
 func _on_proceedButton_pressed():
 	if state == battleState.PLAN:

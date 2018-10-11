@@ -35,6 +35,10 @@ var damageStack = []
 signal deal_damage
 signal cleared_animation_stack
 signal hp_changed
+signal interacted
+
+# a
+onready var bArea = get_node("battlerArea")
 
 # animation variables 
 onready var sprite = get_node("battlerSprite")
@@ -48,6 +52,12 @@ onready var damLabel = preload("res://Prefabs/floatLabel.tscn")
 # positions
 onready var front = get_node("positions/front")
 onready var back = get_node("positions/back")
+onready var above = get_node("positions/above")
+onready var below = get_node("positions/below")
+onready var above_back = get_node("positions/above_back")
+onready var above_front = get_node("positions/above_front")
+onready var below_front = get_node("positions/below_front")
+onready var below_back = get_node("positions/below_back")
 
 var character
 
@@ -144,6 +154,10 @@ func flip_battler():
 	
 	front.position = Vector2(-front.position.x, 0)
 	back.position = Vector2(-back.position.x, 0)
+	above_front.position = Vector2(-above_front.position.x,above_front.position.y)
+	above_back.position = Vector2(-above_back.position.x,above_back.position.y)
+	below_front.position = Vector2(-below_front.position.x,below_front.position.y)
+	below_back.position = Vector2(-below_back.position.x,below_back.position.y)
 
 ## ANIMATION HANDLING ##
 
@@ -189,11 +203,19 @@ func move_sprite(pos_key,tween_speed):
 		"SELF_FRONT": # the front position of themself
 			mpos = front.global_position
 		"SELF_BACK": # the back position of themself
-			mpos = back.global_position	
+			mpos = back.global_position
 		"TARGET_FRONT": # the front of the target
 			mpos = target[0].front.global_position
+		"TARGET_ABOVE":
+			mpos = target[0].above.global_position
 		"TARGET_BACK": # the back of the target
 			mpos = target[0].back.global_position
+		"TARGET_BELOW":
+			mpos = target[0].below.global_position
+		"TARGET_ABOVE_BACK":
+			mpos = target[0].above_back.global_position
+		"TARGET_ABOVE_FRONT":
+			mpos = target[0].above_front.global_position
 		_: # in case the pos key is mistyped
 			print("I'm not sure... stepping back...")
 			mpos = back.global_position
@@ -239,3 +261,9 @@ func emit_damage():
 	if !damageStack.empty():
 		emit_signal("deal_damage", self, target[0], damageStack.front())
 		damageStack.pop_front()
+
+func _on_battlerArea_input_event(viewport, event, shape_idx):
+	if event is InputEventMouseMotion:
+		emit_signal("interacted",self,"hover")
+	elif event.is_pressed() and event.button_index == BUTTON_LEFT:
+		emit_signal("interacted",self,"click")
