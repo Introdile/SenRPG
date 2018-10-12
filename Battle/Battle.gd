@@ -22,12 +22,14 @@ var sl = ""
 
 onready var pip = get_node("selectPip")
 
-onready var battlers #= get_tree().get_nodes_in_group("battler")
+onready var battlers
 var foes = []
 var ally = []
 var actionOrder = []
 
 var currentBattler = 0
+var currentAction
+var currentCharacter
 
 func _ready():
 	
@@ -45,7 +47,8 @@ func _ready():
 		
 		# set the reference character (from the gamedata) and the position of the battler
 		n.character = i
-		n.global_position = allypos[0].global_position
+		n.global_position = allypos.front().global_position
+		allypos.pop_front()
 		n.name = n.character.char_name
 		# add it to the scene,,,
 		$Battlers.add_child(n)
@@ -53,8 +56,8 @@ func _ready():
 		# this sets up the ui
 		var nui = charUI.instance()
 		nui.attachedChar = n
-		nui.rect_position = Vector2(652,452) #TODO: add it to a container that'll handle this automatically
-		ui.add_child(nui)
+		#nui.rect_position = Vector2(652,452) #TODO: add it to a container that'll handle this automatically
+		$UI/NPBack.add_child(nui)
 		
 		if n.global_position.x > get_viewport().size.x / 2:
 			n.flip_battler()
@@ -70,7 +73,8 @@ func _ready():
 		var nbi = load(i.char_battler_scene)
 		var n = nbi.instance()
 		n.character = i
-		n.global_position = foepos[0].global_position
+		n.global_position = foepos.front().global_position
+		foepos.pop_front()
 		n.name = n.character.char_name
 		$Battlers.add_child(n)
 		
@@ -136,15 +140,40 @@ func _on_battler_clearanimstacks():
 func _on_battler_hover(object,event):
 	if state == battleState.TARGET:
 		if event == "hover":
-			if !$selectPip/Tween.is_active():
-				$selectPip/Tween.interpolate_property(pip,"global_position",pip.global_position,object.above.global_position,0.25,Tween.TRANS_LINEAR,Tween.EASE_IN)
-				$selectPip/Tween.start()
+			match currentAction["targets"]:
+				"ONE_FOE":
+					if foes.has(object):
+						pip.move_to(object)
+				"ONE_ALLY":
+					if ally.has(object):
+						pip.move_to(object)
+				
+		if event == "click":
+			var selTarget
+			match currentAction["targets"]:
+				"ONE_FOE":
+					if foes.has(object):
+						selTarget = object
+				"ONE_ALLY":
+					if ally.has(object):
+						selTarget = object
+			if selTarget != null:
+				currentCharacter.target.append(selTarget)
+				print(currentCharacter.name + " has targetted " + selTarget.name + " with ability " + currentCharacter.action["name"])
+				currentAction = null
+				currentCharacter = null
+				pip.visible = false
+				changeState(battleState.PLAN)
 
 func _on_ability_chosen(ab,ch):
+	if !ch.target.empty(): ch.target.clear()
 	ch.action = ab
-	if ab["targets"] == "ONE_FOE":
-		changeState(battleState.TARGET)
-#	ch.target.append(foes[0])
+	currentAction = ab
+	currentCharacter = ch
+	
+	match ab["targets"]:
+		"ONE_FOE":
+			changeState(battleState.TARGET)
 
 func _on_proceedButton_pressed():
 	if state == battleState.PLAN:

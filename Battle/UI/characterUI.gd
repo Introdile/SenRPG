@@ -45,8 +45,8 @@ func update_abilities(ability_list):
 			var nab = abilityButton.instance()
 			nab.attach_ability(i)
 			nab.uiParent = self
-			nab.connect("ability_pressed",get_parent().get_parent(),"_on_ability_chosen")
-			print("Created button for ability " + i["name"])
+			if !nab.is_connected("ability_pressed",get_parent().get_parent().get_parent(),"_on_ability_chosen"):
+				nab.connect("ability_pressed",get_parent().get_parent().get_parent(),"_on_ability_chosen")
 			abilityGrid.add_child(nab)
 			n += 1
 		else: pass

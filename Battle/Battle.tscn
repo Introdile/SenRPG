@@ -4,7 +4,7 @@
 [ext_resource path="res://Assets/frame.png" type="Texture" id=2]
 [ext_resource path="res://Prefabs/fontILabel.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Assets/Fonts/Introdile.ttf" type="DynamicFontData" id=4]
-[ext_resource path="res://Assets/UI/select_pip.png" type="Texture" id=5]
+[ext_resource path="res://Battle/UI/selectPip.tscn" type="PackedScene" id=5]
 
 [sub_resource type="DynamicFont" id=1]
 
@@ -14,7 +14,7 @@ use_filter = false
 font_data = ExtResource( 4 )
 _sections_unfolded = [ "Extra Spacing", "Font", "Settings" ]
 
-[node name="Battle" type="Node"]
+[node name="Battle" type="Node" index="0"]
 
 script = ExtResource( 1 )
 
@@ -27,11 +27,39 @@ script = ExtResource( 1 )
 position = Vector2( 860, 310 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="FoePos" type="Position2D" parent="Battlers" index="1" groups=[
+[node name="AllyPos2" type="Position2D" parent="Battlers" index="1" groups=[
+"ally",
+]]
+
+position = Vector2( 1050, 240 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="AllyPos3" type="Position2D" parent="Battlers" index="2" groups=[
+"ally",
+]]
+
+position = Vector2( 1120, 460 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="FoePos" type="Position2D" parent="Battlers" index="3" groups=[
 "foe",
 ]]
 
 position = Vector2( 400, 300 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="FoePos2" type="Position2D" parent="Battlers" index="4" groups=[
+"foe",
+]]
+
+position = Vector2( 220, 220 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="FoePos3" type="Position2D" parent="Battlers" index="5" groups=[
+"foe",
+]]
+
+position = Vector2( 160, 440 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="UI" type="Control" parent="." index="1"]
@@ -49,93 +77,16 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 
-[node name="NPBack" type="NinePatchRect" parent="UI" index="0"]
+[node name="proceedButton" type="Button" parent="UI" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 16.0
-margin_top = 625.0
-margin_right = 1264.0
-margin_bottom = 784.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-texture = ExtResource( 2 )
-patch_margin_left = 16
-patch_margin_top = 16
-patch_margin_right = 16
-patch_margin_bottom = 16
-_sections_unfolded = [ "Margin", "Patch Margin", "Rect" ]
-
-[node name="attackButton" type="Button" parent="UI/NPBack" index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 551.0
-margin_top = 21.0
-margin_right = 603.0
-margin_bottom = 41.0
-rect_scale = Vector2( 2, 2 )
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-group = null
-text = "Attack"
-flat = false
-align = 1
-_sections_unfolded = [ "Rect" ]
-
-[node name="defendButton" type="Button" parent="UI/NPBack" index="1"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 546.0
-margin_top = 71.0
-margin_right = 604.0
-margin_bottom = 91.0
-rect_scale = Vector2( 2, 2 )
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-group = null
-text = "Defend"
-flat = false
-align = 1
-_sections_unfolded = [ "Rect" ]
-
-[node name="proceedButton" type="Button" parent="UI/NPBack" index="2"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 741.0
-margin_top = 48.0
-margin_right = 799.0
-margin_bottom = 68.0
+margin_left = 837.0
+margin_top = 563.0
+margin_right = 901.0
+margin_bottom = 583.0
 rect_scale = Vector2( 2, 2 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -153,7 +104,30 @@ flat = false
 align = 1
 _sections_unfolded = [ "Rect" ]
 
-[node name="stateLabel" parent="UI" index="1" instance=ExtResource( 3 )]
+[node name="NPBack" type="NinePatchRect" parent="UI" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 16.0
+margin_top = 614.0
+margin_right = 1224.0
+margin_bottom = 744.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 2 )
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+_sections_unfolded = [ "Margin", "Patch Margin", "Rect" ]
+
+[node name="stateLabel" parent="UI" index="2" instance=ExtResource( 3 )]
 
 margin_left = 559.0
 margin_top = 162.0
@@ -169,22 +143,8 @@ margin_right = 876.0
 margin_bottom = 243.0
 text = "Player"
 
-[node name="selectPip" type="Sprite" parent="." index="3"]
+[node name="selectPip" parent="." index="3" instance=ExtResource( 5 )]
 
-visible = false
-texture = ExtResource( 5 )
-
-[node name="Tween" type="Tween" parent="selectPip" index="0"]
-
-repeat = false
-playback_process_mode = 1
-playback_speed = 1.0
-playback/active = false
-playback/repeat = false
-playback/speed = 1.0
-
-[connection signal="pressed" from="UI/NPBack/attackButton" to="." method="_on_attackButton_pressed"]
-
-[connection signal="pressed" from="UI/NPBack/proceedButton" to="." method="_on_proceedButton_pressed"]
+[connection signal="pressed" from="UI/proceedButton" to="." method="_on_proceedButton_pressed"]
 
 
