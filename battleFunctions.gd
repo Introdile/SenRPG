@@ -18,7 +18,6 @@ static func _deal_damage(a,b,ds):
 	
 	b.character.removeHP(dam)
 
-
 static func calculateDamage(a,b,ds):
 	var totaldamage
 	var statUsed
@@ -46,3 +45,23 @@ static func calculateDamage(a,b,ds):
 #	var totaldamage = atk * armor * boost
 	
 	return floor(totaldamage)
+
+static func getRandomBattler(blist):
+	# form the percentage of each battler getting hit, based on hostility
+	# percent hostility is the current selected battlers hostility over the party's total hostility times 100
+	# randomly generate one of them
+	var randNum = randi() % 100
+	print(randNum)
+	
+	var hostSum = 0.0
+	var lastValue = 0.0
+	var newRange
+	
+	for i in blist:
+		hostSum += i.hostility
+	for i in blist:
+		newRange = float(i.hostility) / hostSum * 100 + lastValue
+		
+		if randNum > lastValue and randNum < newRange:
+			return i
+		lastValue = newRange

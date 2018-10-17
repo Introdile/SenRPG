@@ -20,6 +20,7 @@ var abilityList = [0,1]
 # battle variables
 var action
 var target = []
+var hostility = 10
 
 # animation variables
 var animationStack = []

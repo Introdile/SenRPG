@@ -57,7 +57,7 @@ func _ready():
 		var nui = charUI.instance()
 		nui.attachedChar = n
 		#nui.rect_position = Vector2(652,452) #TODO: add it to a container that'll handle this automatically
-		$UI/NPBack.add_child(nui)
+		$UI/NPBack/characterUI.add_child(nui)
 		
 		if n.global_position.x > get_viewport().size.x / 2:
 			n.flip_battler()
@@ -99,7 +99,9 @@ func _process(delta):
 			sl = "The foe is selecting their action."
 			# CHOOSE THE FOE'S ACTION
 			for i in foes:
-				i.target.append(ally[0])
+				var foeTarget = battleFunc.getRandomBattler(ally)
+				print("Foe has chosen target " + foeTarget.name)
+				i.target.append(foeTarget)
 				i.action = Global_DatabaseReader.get_from_database(1,"ability")
 			print("foe has selected action " + foes[0].action["name"])
 			changeState(battleState.PLAN)
