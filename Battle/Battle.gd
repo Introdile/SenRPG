@@ -94,6 +94,17 @@ func _process(delta):
 			# SET UP THE BATTLERS
 			for i in battlers:
 				i.character.current_health = i.character.base_health
+			
+			battlers.front().character.active_effects.append(Global_DatabaseReader.status[1].duplicate())
+			for i in battlers:
+				if !i.character.active_effects.empty():
+					#i.character.active_effects[0].duration = 1
+					print(i.character.active_effects[0].statusName)
+				print(i.character.active_effects)
+			
+			print("---")
+			print(Global_DatabaseReader.status[1])
+			print(Global_DatabaseReader.status[1].statusName)
 			changeState(battleState.FOE)
 		battleState.FOE:
 			sl = "The foe is selecting their action."

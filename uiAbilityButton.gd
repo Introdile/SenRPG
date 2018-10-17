@@ -21,7 +21,7 @@ func attach_ability(newAbility):
 		update_icon(attachedAbility["icon"])
 
 func update_icon(id,gs=32,noc=8):
-	print("Icon set for " + attachedAbility["name"])
+#	print("Icon set for " + attachedAbility["name"])
 	$uiAbilityIcon.texture.region = cf.id_to_grid(id,gs,noc)
 
 func _set_up_bitmap():

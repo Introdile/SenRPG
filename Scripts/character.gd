@@ -15,6 +15,7 @@ var level
 
 # skills
 var ability_list = []
+var active_effects = []
 
 # hp/adr
 var base_health
