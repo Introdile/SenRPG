@@ -35,7 +35,6 @@ func _load_from_database(which):
 			"status": 
 				var loadStatus = status_instance.new()
 				loadStatus.load_from_database(i)
-				print(loadStatus.name)
 				status.append(loadStatus)
 		
 #		print("Loaded " + which + " of id " + str(i) + " ("+n["name"]+")")

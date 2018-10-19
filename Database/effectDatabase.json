@@ -1,6 +1,7 @@
 {
 	"0": {
 		"name": "Test Effect",
+		"icon": 0,
 		"description": "Racks the body with dangerous prototype energy. %d",
 		"duration": 4,
 		"type": "DOT",
@@ -12,6 +13,31 @@
 	},
 	"1": {
 		"name": "Defense Down",
+		"icon": 1,
+		"description": "Defenses reduces by [color=blue]%d%%[/color].",
+		"duration": 4,
+		"type": "DEBUFF",
+		"can_stack": true,
+		"max_stacks": 4	,
+		"process": [
+			{ "change": "reduce", "stat": "defense", "power": 25 },
+		],
+	},
+	"2": {
+		"name": "Hemorrage",
+		"icon": 2,
+		"description": "Defenses reduces by [color=blue]%d%%[/color].",
+		"duration": 4,
+		"type": "DEBUFF",
+		"can_stack": true,
+		"max_stacks": 4	,
+		"process": [
+			{ "change": "reduce", "stat": "defense", "power": 25 },
+		],
+	},
+	"3": {
+		"name": "Kill Death",
+		"icon": 3,
 		"description": "Defenses reduces by [color=blue]%d%%[/color].",
 		"duration": 4,
 		"type": "DEBUFF",

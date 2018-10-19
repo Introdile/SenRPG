@@ -96,25 +96,16 @@ func _process(delta):
 				i.character.current_health = i.character.base_health
 			
 			battlers.front().character.active_effects.append(Global_DatabaseReader.status[1].duplicate())
-			for i in battlers:
-				if !i.character.active_effects.empty():
-					#i.character.active_effects[0].duration = 1
-					print(i.character.active_effects[0].statusName)
-				print(i.character.active_effects)
-			
-			print("---")
-			print(Global_DatabaseReader.status[1])
-			print(Global_DatabaseReader.status[1].statusName)
 			changeState(battleState.FOE)
 		battleState.FOE:
 			sl = "The foe is selecting their action."
 			# CHOOSE THE FOE'S ACTION
 			for i in foes:
 				var foeTarget = battleFunc.getRandomBattler(ally)
-				print("Foe has chosen target " + foeTarget.name)
+#				print("Foe has chosen target " + foeTarget.name)
 				i.target.append(foeTarget)
 				i.action = Global_DatabaseReader.get_from_database(1,"ability")
-			print("foe has selected action " + foes[0].action["name"])
+#				print("foe has selected action " + foes[0].action["name"])
 			changeState(battleState.PLAN)
 		battleState.PLAN:
 			

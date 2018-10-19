@@ -45,10 +45,13 @@ onready var bArea = get_node("battlerArea")
 onready var sprite = get_node("battlerSprite")
 onready var battlerAnim = get_node("battlerAnim")
 
-# bar variables
+# ui variables
 onready var hpBar = get_node("battlerInfo/healthBar")
 onready var adBar = get_node("battlerInfo/adrenalineBar")
 onready var damLabel = preload("res://Prefabs/floatLabel.tscn")
+
+onready var statusCont = get_node("battlerInfo/statusContainer")
+onready var statusIcon = preload("res://Battle/UI/statusIcon.tscn")
 
 # positions
 onready var front = get_node("positions/front")
@@ -235,6 +238,24 @@ func createDamageLabel(val):
 #	print(str(n.position))
 	add_child(n)
 
+func emit_damage():
+	if !damageStack.empty():
+		emit_signal("deal_damage", self, target[0], damageStack.front())
+		damageStack.pop_front()
+
+func add_status_effect(id):
+	if id > Global_DatabaseReader.status.size() or id < 0:
+		print("Status ID " + str(id) + " not found!")
+		return
+	var newStatus = Global_DatabaseReader.status[id].duplicate()
+	character.active_effects.append(newStatus)
+	
+	var newIcon = statusIcon.new()
+	newIcon.statusRef = newStatus
+	newIcon.set_icon(newStatus.icon)
+	statusCont.add_child(newIcon)
+	
+
 func _on_tween_complete(object, key):
 	activetween.queue_free()
 	if !animationStack.empty():
@@ -257,11 +278,6 @@ func _on_battlerAnim_animation_finished(anim_name):
 		processingStack = false
 	if anim_name == "hurt":
 		battlerAnim.play("idle")
-
-func emit_damage():
-	if !damageStack.empty():
-		emit_signal("deal_damage", self, target[0], damageStack.front())
-		damageStack.pop_front()
 
 func _on_battlerArea_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseMotion:

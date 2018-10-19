@@ -51,7 +51,7 @@ static func getRandomBattler(blist):
 	# percent hostility is the current selected battlers hostility over the party's total hostility times 100
 	# randomly generate one of them
 	var randNum = randi() % 100
-	print(randNum)
+#	print(randNum)
 	
 	var hostSum = 0.0
 	var lastValue = 0.0
