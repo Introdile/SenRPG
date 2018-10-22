@@ -14,6 +14,7 @@ var state
 var lastState
 
 onready var battleFunc = preload("res://battleFunctions.gd")
+onready var stProcessor = preload("res://Battle/statusProcessor.gd")
 onready var charUI = preload("res://Battle/UI/characterUI.tscn")
 
 onready var ui = get_node("UI")
@@ -48,6 +49,7 @@ func _ready():
 		# set the reference character (from the gamedata) and the position of the battler
 		n.character = i
 		n.global_position = allypos.front().global_position
+		allypos.front().queue_free()
 		allypos.pop_front()
 		n.name = n.character.char_name
 		# add it to the scene,,,
@@ -74,6 +76,7 @@ func _ready():
 		var n = nbi.instance()
 		n.character = i
 		n.global_position = foepos.front().global_position
+		foepos.front().queue_free()
 		foepos.pop_front()
 		n.name = n.character.char_name
 		$Battlers.add_child(n)
@@ -95,7 +98,8 @@ func _process(delta):
 			for i in battlers:
 				i.character.current_health = i.character.base_health
 			
-			battlers.front().character.active_effects.append(Global_DatabaseReader.status[1].duplicate())
+			battlers.front().add_status_effect(1,battlers.back())
+			#battlers.front().character.active_effects.append(Global_DatabaseReader.status[1].duplicate())
 			changeState(battleState.FOE)
 		battleState.FOE:
 			sl = "The foe is selecting their action."
@@ -124,6 +128,7 @@ func _process(delta):
 				print(str(actionOrder.size()))
 			
 			if !actionOrder.front().animating:
+				stProcessor.processStatus(actionOrder.front(),"START_OF_ACTION")
 				sl = actionOrder.front().name + " currently acting..."
 				actionOrder.front().performAction()
 	

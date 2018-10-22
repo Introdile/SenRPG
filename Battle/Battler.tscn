@@ -171,6 +171,7 @@ margin_left = -51.0
 margin_top = 90.0
 margin_right = 52.0
 margin_bottom = 130.0
+rect_min_size = Vector2( 103, 40 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -178,6 +179,7 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 columns = 1
+_sections_unfolded = [ "Rect" ]
 
 [node name="statusIcon" parent="battlerInfo/statusContainer" index="0" instance=ExtResource( 5 )]
 

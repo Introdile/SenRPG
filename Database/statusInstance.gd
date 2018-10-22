@@ -23,6 +23,9 @@ var canStack = false
 var maxStacks = 1
 var currentStacks = 1
 
+var attached
+var source
+
 var process = []
 
 func load_from_database(id):
@@ -49,3 +52,19 @@ func load_from_database(id):
 	canStack = database_raw["can_stack"]
 	maxStacks = database_raw["max_stacks"]
 	process = database_raw["process"]
+
+func copy():
+	var x = self.duplicate()
+	#n = Global_DatabaseReader.status[id]
+	
+	x.statusID = statusID
+	x.statusIcon = statusIcon
+	x.name = name
+	x.statusDescription = statusDescription
+	x.duration = duration
+	x.type = type
+	x.canStack = canStack
+	x.maxStacks = maxStacks
+	x.process = process
+	
+	return x

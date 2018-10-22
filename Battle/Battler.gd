@@ -243,16 +243,21 @@ func emit_damage():
 		emit_signal("deal_damage", self, target[0], damageStack.front())
 		damageStack.pop_front()
 
-func add_status_effect(id):
+func add_status_effect(id,source):
+	# source should be a reference to a battler
 	if id > Global_DatabaseReader.status.size() or id < 0:
 		print("Status ID " + str(id) + " not found!")
 		return
-	var newStatus = Global_DatabaseReader.status[id].duplicate()
+	var newStatus = Global_DatabaseReader.status[id].copy()
+	newStatus.source = source
+	newStatus.attached = self
 	character.active_effects.append(newStatus)
 	
-	var newIcon = statusIcon.new()
+	print(str(newStatus.process))
+	
+	var newIcon = statusIcon.instance()
 	newIcon.statusRef = newStatus
-	newIcon.set_icon(newStatus.icon)
+	newIcon.set_icon(newStatus.statusIcon)
 	statusCont.add_child(newIcon)
 	
 
