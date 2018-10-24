@@ -11,6 +11,29 @@ static func processStatus(battler, time_key):
 		for st in eff.process:
 			if st.has("time"):
 				if st["time"] == time_key:
-					print("Status " + eff.name + " would process right now!")
-					print(battler.character.getMight())
 					
+					checkProcessStack(st, eff)
+					print("Status " + eff.name + " would process right now!")
+					
+
+static func checkProcessStack(process, status):
+	match process["type"]:
+		"REDUCE": _REDUCE(process, status)
+
+static func _REDUCE(process, status):
+	var psTarget = status.attached
+	var psSource = status.source
+	
+	match process["stat"]:
+		"CURRENT_HEALTH":
+			if process["reduce"] == "FLAT":
+				psTarget.character.removeHP(process["power"])
+			elif process["reduce"] == "PERCENT":
+				var htr = psTarget.character.base_health * (0.01 * process["power"])
+				psTarget.character.removeHP(htr)
+		"TOUGH":
+			var newMod = { "MOD_TYPE":process["reduce"], "MOD":(0.01 * process["power"]), "SOURCE":psSource }
+			print(newMod)
+			print("Before: " + str(psTarget.character.getTough()))
+			psTarget.character.addStatModifier(process["stat"],newMod)
+			print("After: " + str(psTarget.character.getTough()))

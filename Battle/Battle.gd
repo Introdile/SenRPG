@@ -98,7 +98,7 @@ func _process(delta):
 			for i in battlers:
 				i.character.current_health = i.character.base_health
 			
-			battlers.front().add_status_effect(1,battlers.back())
+			battlers.front().addStatusEffect(1,battlers.back())
 			#battlers.front().character.active_effects.append(Global_DatabaseReader.status[1].duplicate())
 			changeState(battleState.FOE)
 		battleState.FOE:

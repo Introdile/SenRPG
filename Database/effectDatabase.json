@@ -20,7 +20,7 @@
 		"can_stack": true,
 		"max_stacks": 4	,
 		"process": [
-			{ "time":"START_OF_ACTION", "type":"REDUCE", "stat":"HEALTH", "power": 25 },
+			{ "time":"START_OF_ACTION", "type":"REDUCE", "stat":"TOUGH", "reduce":"PERCENT","power": 50 },
 		],
 	},
 	"2": {

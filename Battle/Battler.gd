@@ -44,6 +44,7 @@ onready var bArea = get_node("battlerArea")
 # animation variables 
 onready var sprite = get_node("battlerSprite")
 onready var battlerAnim = get_node("battlerAnim")
+var currentAnim
 
 # ui variables
 onready var hpBar = get_node("battlerInfo/healthBar")
@@ -132,7 +133,8 @@ func _process(delta):
 					"animation":
 						
 						if battlerAnim.has_animation(animationStack.front()["animation"]):
-							battlerAnim.play(animationStack.front()["animation"])
+							currentAnim = animationStack.front()["animation"]
+							battlerAnim.play(currentAnim)
 							processingStack = true
 						else:
 							print("Animation not found: " + animationStack.front()["animation"])
@@ -141,6 +143,7 @@ func _process(delta):
 		else:
 			if !processingStack:
 				move_sprite("START",0.5)
+				currentAnim = null
 				processingStack = true
 	
 
@@ -184,7 +187,7 @@ func performAction():
 	for i in action["damage"]:
 		damageStack.append(i)
 	
-	print(name + " performing animation for ability " + action["name"] + ". Anim stack size = " + str(animationStack.size()))
+#	print(name + " performing animation for ability " + action["name"] + ". Anim stack size = " + str(animationStack.size()))
 	
 	animating = true
 
@@ -243,7 +246,9 @@ func emit_damage():
 		emit_signal("deal_damage", self, target[0], damageStack.front())
 		damageStack.pop_front()
 
-func add_status_effect(id,source):
+func addStatusEffect(id,source):
+	# TODO: switch ID to status instance, move this to character.gd script
+	
 	# source should be a reference to a battler
 	if id > Global_DatabaseReader.status.size() or id < 0:
 		print("Status ID " + str(id) + " not found!")
@@ -253,13 +258,10 @@ func add_status_effect(id,source):
 	newStatus.attached = self
 	character.active_effects.append(newStatus)
 	
-	print(str(newStatus.process))
-	
 	var newIcon = statusIcon.instance()
 	newIcon.statusRef = newStatus
 	newIcon.set_icon(newStatus.statusIcon)
 	statusCont.add_child(newIcon)
-	
 
 func _on_tween_complete(object, key):
 	activetween.queue_free()
@@ -278,11 +280,15 @@ func _on_tween_complete(object, key):
 	processingStack = false
 
 func _on_battlerAnim_animation_finished(anim_name):
-	if !animationStack.empty():
+	if !animationStack.empty() and anim_name == currentAnim:
 		animationStack.pop_front()
 		processingStack = false
 	if anim_name == "hurt":
-		battlerAnim.play("idle")
+		if !animating:
+			battlerAnim.play("idle")
+		else:
+			if currentAnim != null:
+				battlerAnim.play(currentAnim)
 
 func _on_battlerArea_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseMotion:

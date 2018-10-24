@@ -44,33 +44,6 @@ var mod_speed = []
 
 signal hp_changed
 
-func load_info_from_database(which,id):
-	# which should be a string of either "character" or "enemy"
-	match which:
-		"character": database_raw = Global_DatabaseReader.character[id]
-	
-	char_battler_scene = database_raw["path_to_battler"]
-	
-	char_name = database_raw["name"]
-	char_icon = database_raw["icon"]
-	base_health = database_raw["max_hp"]
-	current_health = base_health
-	hp_last_at = current_health
-	
-	base_might = database_raw["might"]
-	base_tough = database_raw["tough"]
-	
-	base_power = database_raw["power"]
-	base_ward = database_raw["ward"]
-	
-	base_speed = database_raw["speed"]
-	
-	load_abilities()
-	
-	level = 1
-	
-	return self
-
 func addStatModifier(which, mod):
 	# mod should be an dictionary containing MOD_TYPE, MOD, and SOURCE
 	match which:
@@ -97,38 +70,67 @@ func addHP(value):
 	var chg = (value / base_health) * 100
 	emit_signal("hp_changed",value,"up")
 
-func addModifiers(val,mod):
+func getAdjusted(val,mod):
 	# val should be the base_stat value
 	# mod should be the mod_stat value
-	var add
-	var mult
+	var add = 0.0
+	var mult = 1.0
 	
-	if mod != null:
+	if !mod.empty():
+		print(mod)
 		for i in mod:
-			match mod["MOD_TYPE"]:
-				"ADD": add += mod["MOD"]
-				"MULTIPLY": mult += mod["MOD"]
+			match i["MOD_TYPE"]:
+				"FLAT": add += i["MOD"]
+				"PERCENT": mult *= i["MOD"]
 		
-		val = val + add * mult
-	return val
+		print(str(add) + " x " + str(mult))
+		val = (float(val) + add) * mult
+	return floor(val)
 
 func getMaxHealth():
-	return addModifiers(base_health,mod_health)
+	return getAdjusted(base_health,mod_health)
 
 func getMight():
-	return addModifiers(base_might,mod_might)
+	return getAdjusted(base_might,mod_might)
 
 func getTough():
-	return addModifiers(base_tough,mod_tough)
+	return getAdjusted(base_tough,mod_tough)
 
 func getPower():
-	return addModifiers(base_power,mod_power)
+	return getAdjusted(base_power,mod_power)
 
 func getWard():
-	return addModifiers(base_ward,mod_ward)
+	return getAdjusted(base_ward,mod_ward)
 
 func getSpeed():
-	return addModifiers(base_speed,mod_speed)
+	return getAdjusted(base_speed,mod_speed)
+
+func load_info_from_database(which,id):
+	# which should be a string of either "character" or "enemy"
+	match which:
+		"character": database_raw = Global_DatabaseReader.character[id]
+	
+	char_battler_scene = database_raw["path_to_battler"]
+	
+	char_name = database_raw["name"]
+	char_icon = database_raw["icon"]
+	base_health = database_raw["max_hp"]
+	current_health = base_health
+	hp_last_at = current_health
+	
+	base_might = database_raw["might"]
+	base_tough = database_raw["tough"]
+	
+	base_power = database_raw["power"]
+	base_ward = database_raw["ward"]
+	
+	base_speed = database_raw["speed"]
+	
+	load_abilities()
+	
+	level = 1
+	
+	return self
 
 func load_abilities():
 	for i in database_raw["abilities"]:

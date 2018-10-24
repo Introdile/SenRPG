@@ -1,7 +1,7 @@
 extends Node
 
 static func isSpeedGreater(a,b):
-	return a.character.base_speed > b.character.base_speed
+	return a.character.getSpeed() > b.character.getSpeed()
 
 static func _deal_damage(a,b,ds):
 	#a is the attacker
@@ -25,14 +25,14 @@ static func calculateDamage(a,b,ds):
 	
 	match ds["based_stat"]:
 		"MIGHT":
-			statUsed = a.character.base_might
+			statUsed = a.character.getMight()
 		_:
 			print("Unrecognized based_stat... defaulting to MIGHT")
-			statUsed = a.character.base_might
+			statUsed = a.character.getMight()
 	
 	match ds["element"]:
 		"PHYSICAL":
-			var def = b.character.base_tough
+			var def = b.character.getTough()
 			var level = a.character.level
 			armor = 1 - (def / ((9 * (1 + level)) + def))
 			
