@@ -81,7 +81,7 @@ func getAdjusted(val,mod):
 		for i in mod:
 			match i["MOD_TYPE"]:
 				"FLAT": add += i["MOD"]
-				"PERCENT": mult *= i["MOD"]
+				"PERCENT": mult += i["MOD"]
 		
 		print(str(add) + " x " + str(mult))
 		val = (float(val) + add) * mult

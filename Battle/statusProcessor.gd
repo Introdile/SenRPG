@@ -13,12 +13,13 @@ static func processStatus(battler, time_key):
 				if st["time"] == time_key:
 					
 					checkProcessStack(st, eff)
-					print("Status " + eff.name + " would process right now!")
+#					print("Status " + eff.name + " would process right now!")
 					
 
 static func checkProcessStack(process, status):
 	match process["type"]:
 		"REDUCE": _REDUCE(process, status)
+		"INTERRUPT": _INTERRUPT(process, status)
 
 static func _REDUCE(process, status):
 	var psTarget = status.attached
@@ -31,9 +32,18 @@ static func _REDUCE(process, status):
 			elif process["reduce"] == "PERCENT":
 				var htr = psTarget.character.base_health * (0.01 * process["power"])
 				psTarget.character.removeHP(htr)
-		"TOUGH":
-			var newMod = { "MOD_TYPE":process["reduce"], "MOD":(0.01 * process["power"]), "SOURCE":psSource }
-			print(newMod)
-			print("Before: " + str(psTarget.character.getTough()))
+		_:
+			# this is the generic stat
+			var n
+			if process["reduce"] == "PERCENT":
+				n = -(0.01 * process["power"])
+			else:
+				n = process["power"]
+			var newMod = { "MOD_TYPE":process["reduce"], "MOD":n, "SOURCE":psSource }
 			psTarget.character.addStatModifier(process["stat"],newMod)
-			print("After: " + str(psTarget.character.getTough()))
+
+static func _INTERRUPT(process,status):
+	var psTarget = status.attached
+	var psSource = status.source
+	print("Interrupt!")
+	psTarget.action = null

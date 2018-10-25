@@ -190,6 +190,7 @@ func performAction():
 #	print(name + " performing animation for ability " + action["name"] + ". Anim stack size = " + str(animationStack.size()))
 	
 	animating = true
+	return true
 
 func move_sprite(pos_key,tween_speed):
 	# pos_key accepts a string that indicates the position

@@ -130,21 +130,25 @@ func _process(delta):
 			if !actionOrder.front().animating:
 				stProcessor.processStatus(actionOrder.front(),"START_OF_ACTION")
 				sl = actionOrder.front().name + " currently acting..."
-				actionOrder.front().performAction()
+				if !actionOrder.front().performAction():
+					passTurn()
 	
 	stateLabel.text = sl
 
-func changeState(newState):
-	lastState = state
-	state = newState
-
-func _on_battler_clearanimstacks():
+func passTurn():
 	if state == battleState.ACTION:
 		if actionOrder.size()-1 > 0:
 			actionOrder.pop_front()
 		else:
 			actionOrder.pop_front()
 			changeState(battleState.FOE)
+
+func changeState(newState):
+	lastState = state
+	state = newState
+
+func _on_battler_clearanimstacks():
+	passTurn()
 
 func _on_battler_hover(object,event):
 	if state == battleState.TARGET:
