@@ -15,7 +15,7 @@ var lastState
 
 onready var battleFunc = preload("res://battleFunctions.gd")
 onready var stProcessor = preload("res://Battle/statusProcessor.gd")
-onready var charUI = preload("res://Battle/UI/characterUI.tscn")
+onready var charUI = preload("res://Battle/UI/characterUI_2.tscn")
 
 onready var ui = get_node("UI")
 onready var stateLabel = get_node("UI/stateLabel")
@@ -106,7 +106,7 @@ func _process(delta):
 			# CHOOSE THE FOE'S ACTION
 			for i in foes:
 				var foeTarget = battleFunc.getRandomBattler(ally)
-#				print("Foe has chosen target " + foeTarget.name)
+				print("Foe has chosen target " + foeTarget.name)
 				i.target.append(foeTarget)
 				i.action = Global_DatabaseReader.get_from_database(1,"ability")
 #				print("foe has selected action " + foes[0].action["name"])
@@ -124,7 +124,7 @@ func _process(delta):
 			if actionOrder.empty():
 				for i in battlers:
 					actionOrder.append(i)
-					print(i.name)
+#					print(i.name)
 				print(str(actionOrder.size()))
 			
 			if !actionOrder.front().animating:

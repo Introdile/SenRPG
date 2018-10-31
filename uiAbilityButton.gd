@@ -13,7 +13,7 @@ func _ready():
 	$uiAbilityIcon.texture = $uiAbilityIcon.texture.duplicate()
 	if attachedAbility.has("icon"):
 		update_icon(attachedAbility["icon"])
-	else: self.queue_free()
+	else: ab_icon.queue_free()#self.queue_free()
 
 func attach_ability(newAbility):
 	attachedAbility = newAbility
@@ -31,4 +31,5 @@ func _set_up_bitmap():
 	texture_click_mask = newBitmap
 
 func _on_uiAbilityButton_pressed():
-	emit_signal("ability_pressed",attachedAbility,uiParent.attachedChar)
+	if attachedAbility != null:
+		emit_signal("ability_pressed",attachedAbility,uiParent.attachedChar)

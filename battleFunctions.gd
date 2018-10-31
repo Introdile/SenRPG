@@ -50,6 +50,8 @@ static func getRandomBattler(blist):
 	# form the percentage of each battler getting hit, based on hostility
 	# percent hostility is the current selected battlers hostility over the party's total hostility times 100
 	# randomly generate one of them
+	var selected
+	
 	var randNum = randi() % 100
 #	print(randNum)
 	
@@ -63,5 +65,10 @@ static func getRandomBattler(blist):
 		newRange = float(i.hostility) / hostSum * 100 + lastValue
 		
 		if randNum > lastValue and randNum < newRange:
-			return i
+			selected = i
 		lastValue = newRange
+	
+	if selected == null:
+		selected = blist[0]
+	
+	return selected
