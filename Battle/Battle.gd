@@ -6,6 +6,7 @@ enum battleState {
 	PLAN,
 	TARGET,
 	ACTION,
+	EOT,
 	WIN,
 	LOSE,
 }
@@ -121,17 +122,36 @@ func _process(delta):
 			if !$selectPip.visible: $selectPip.visible = true
 			pass
 		battleState.ACTION:
+			
+			#    set passive actions if no action was previously set
+			for i in ally:
+				if i.action == null:
+					match i.passiveAction:
+						"ATTACK":
+							i.action = i.character.attack_skill
+							i.target.append(battleFunc.getRandomBattler(foes))
+			
+			#    set up the action order for the turn
 			if actionOrder.empty():
 				for i in battlers:
 					actionOrder.append(i)
-#					print(i.name)
-				print(str(actionOrder.size()))
 			
+			#    proceed with the turn
 			if !actionOrder.front().animating:
 				stProcessor.processStatus(actionOrder.front(),"START_OF_ACTION")
 				sl = actionOrder.front().name + " currently acting..."
 				if !actionOrder.front().performAction():
 					passTurn()
+			
+		battleState.EOT:
+			# end of turn
+			
+			#    reduce cooldowns and durations
+			for i in battlers:
+				stProcessor.processStatus(i,"END_OF_TURN")
+				i.character.reduceDuration()
+			
+			changeState(battleState.FOE)
 	
 	stateLabel.text = sl
 
@@ -141,7 +161,7 @@ func passTurn():
 			actionOrder.pop_front()
 		else:
 			actionOrder.pop_front()
-			changeState(battleState.FOE)
+			changeState(battleState.EOT)
 
 func changeState(newState):
 	lastState = state

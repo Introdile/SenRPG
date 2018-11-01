@@ -18,6 +18,7 @@ export(bool) var flip = false
 var abilityList = [0,1]
 
 # battle variables
+var passiveAction
 var action
 var target = []
 var hostility = 10

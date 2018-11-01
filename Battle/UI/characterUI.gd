@@ -119,13 +119,25 @@ func updateHP(amount,uod):
 func _on_passiveSide_pressed():
 	match passiveAction:
 		"ATTACK":
-			passiveAction = "DEFEND"
+			attachedChar.passiveAction = "DEFEND"
 			passiveActionSide[0].texture_normal = pA_attack_right
 			passiveActionSide[1].texture_normal = pA_attack_left
 			passiveActionMain.texture_normal = pA_defend_main
 		"DEFEND":
-			passiveAction = "ATTACK"
+			attachedChar.passiveAction = "ATTACK"
 			passiveActionSide[0].texture_normal = pA_defend_right
 			passiveActionSide[1].texture_normal = pA_defend_left
 			passiveActionMain.texture_normal = pA_attack_main
 	pass # replace with function body
+
+
+func _on_passiveMain_pressed():
+	match passiveAction:
+		"ATTACK":
+			print(attachedChar.name + " set to ATTACK")
+			attachedChar.passiveAction = "ATTACK"
+			attachedChar.action = null
+		"DEFEND":
+			print(attachedChar.name + " set to DEFEND")
+			attachedChar.passiveAction = "DEFEND"
+			attachedChar.action = null

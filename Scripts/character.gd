@@ -14,6 +14,7 @@ var class_role
 var level
 
 # skills
+var attack_skill
 var ability_list = []
 var active_effects = []
 
@@ -126,6 +127,7 @@ func load_info_from_database(which,id):
 	
 	base_speed = database_raw["speed"]
 	
+	attack_skill = database_raw["attack"]
 	load_abilities()
 	
 	level = 1
@@ -135,3 +137,12 @@ func load_info_from_database(which,id):
 func load_abilities():
 	for i in database_raw["abilities"]:
 		ability_list.append(Global_DatabaseReader.ability[i])
+
+func reduceDuration():
+	if !active_effects.empty():
+		for i in active_effects:
+			i.duration -= 1
+			if i.duration <= 0:
+				active_effects.erase(i)
+				print("Effect fell off " + i.name)
+			print("Reduced the duration of " + i.name)

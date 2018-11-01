@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Battle/UI/characterUI.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Portraits/tall_port_test.png" type="Texture" id=2]
 [ext_resource path="res://Prefabs/progressBar.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Assets/UI/passive_action_defend_side_temp.png" type="Texture" id=4]
 [ext_resource path="res://Assets/UI/passive_action_attack_temp.png" type="Texture" id=5]
+[ext_resource path="res://Assets/UI/passive_action_defend_right_temp.png" type="Texture" id=6]
 
 [sub_resource type="StyleBoxFlat" id=1]
 
@@ -240,10 +241,12 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-texture_normal = ExtResource( 4 )
+texture_normal = ExtResource( 6 )
 _sections_unfolded = [ "Rect", "Textures" ]
 
 [connection signal="pressed" from="mainCont/right/passiveAction/passiveLeft" to="." method="_on_passiveSide_pressed"]
+
+[connection signal="pressed" from="mainCont/right/passiveAction/passiveMain" to="." method="_on_passiveMain_pressed"]
 
 [connection signal="pressed" from="mainCont/right/passiveAction/passiveRight" to="." method="_on_passiveSide_pressed"]
 
