@@ -5,6 +5,7 @@ var status_database = "res://Database/effectDatabase.json"
 var character_database = "res://Database/characterDatabase.json"
 
 onready var status_instance = preload("res://Database/statusInstance.gd")
+onready var ability_instance = preload("res://Database/abilityInstance.gd")
 
 var character = []
 var ability = []
@@ -29,7 +30,10 @@ func _load_from_database(which):
 			return
 		
 		match which:
-			"ability": ability.append(n)
+			"ability": 
+				var loadAbility = ability_instance.new()
+				loadAbility.load_from_database(i)
+				ability.append(loadAbility)
 			"character": 
 				character.append(n)
 			"status": 

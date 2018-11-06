@@ -136,7 +136,8 @@ func load_info_from_database(which,id):
 
 func load_abilities():
 	for i in database_raw["abilities"]:
-		ability_list.append(Global_DatabaseReader.ability[i])
+		var newAb = Global_DatabaseReader.ability[i].copy()
+		ability_list.append(newAb)
 
 func reduceDuration():
 	if !active_effects.empty():

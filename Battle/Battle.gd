@@ -109,7 +109,7 @@ func _process(delta):
 				var foeTarget = battleFunc.getRandomBattler(ally)
 				print("Foe has chosen target " + foeTarget.name)
 				i.target.append(foeTarget)
-				i.action = Global_DatabaseReader.get_from_database(1,"ability")
+				i.action = i.character.ability_list[0]
 #				print("foe has selected action " + foes[0].action["name"])
 			changeState(battleState.PLAN)
 		battleState.PLAN:
@@ -150,6 +150,9 @@ func _process(delta):
 			for i in battlers:
 				stProcessor.processStatus(i,"END_OF_TURN")
 				i.character.reduceDuration()
+				
+				i.action = null
+				i.target.clear()
 			
 			changeState(battleState.FOE)
 	
@@ -173,7 +176,7 @@ func _on_battler_clearanimstacks():
 func _on_battler_hover(object,event):
 	if state == battleState.TARGET:
 		if event == "hover":
-			match currentAction["targets"]:
+			match currentAction.abTarget:
 				"ONE_FOE":
 					if foes.has(object):
 						pip.move_to(object)
@@ -183,7 +186,7 @@ func _on_battler_hover(object,event):
 				
 		if event == "click":
 			var selTarget
-			match currentAction["targets"]:
+			match currentAction.abTarget:
 				"ONE_FOE":
 					if foes.has(object):
 						selTarget = object
@@ -204,7 +207,7 @@ func _on_ability_chosen(ab,ch):
 	currentAction = ab
 	currentCharacter = ch
 	
-	match ab["targets"]:
+	match ab.abTarget:
 		"ONE_FOE":
 			changeState(battleState.TARGET)
 

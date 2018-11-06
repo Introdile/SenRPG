@@ -18,7 +18,7 @@ export(bool) var flip = false
 var abilityList = [0,1]
 
 # battle variables
-var passiveAction
+var passiveAction = "ATTACK"
 var action
 var target = []
 var hostility = 10
@@ -178,14 +178,13 @@ func flip_battler():
 func performAction():
 	# fail safe in case an action wasn't selected
 	if action == null:
-		print("I have no action! :'(")
 		return false
 	
 	# loads up the animation stack
-	for i in action["animation"]:
+	for i in action.abAnimation:
 		animationStack.append(i)
 	
-	for i in action["damage"]:
+	for i in action.abEffects:
 		damageStack.append(i)
 	
 #	print(name + " performing animation for ability " + action["name"] + ". Anim stack size = " + str(animationStack.size()))

@@ -59,6 +59,7 @@ func copy():
 	
 	x.statusID = statusID
 	x.statusIcon = statusIcon
+	x.statusName = name
 	x.name = name
 	x.statusDescription = statusDescription
 	x.duration = duration

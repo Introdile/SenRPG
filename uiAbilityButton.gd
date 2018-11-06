@@ -5,20 +5,20 @@ signal ability_pressed
 onready var ab_icon = get_node("uiAbilityIcon")
 onready var ab_sheet = preload("res://Assets/AbilityIcons/abilityIconSheet.png")
 
-var attachedAbility = {}
+var attachedAbility
 var uiParent
 
 func _ready():
 	_set_up_bitmap()
 	$uiAbilityIcon.texture = $uiAbilityIcon.texture.duplicate()
-	if attachedAbility.has("icon"):
-		update_icon(attachedAbility["icon"])
+	if attachedAbility != null:
+		update_icon(attachedAbility.abIcon)
 	else: ab_icon.queue_free()#self.queue_free()
 
 func attach_ability(newAbility):
 	attachedAbility = newAbility
-	if typeof(attachedAbility["icon"]) != TYPE_STRING:
-		update_icon(attachedAbility["icon"])
+	if typeof(attachedAbility.abIcon) != TYPE_STRING:
+		update_icon(attachedAbility.abIcon)
 
 func update_icon(id,gs=32,noc=8):
 #	print("Icon set for " + attachedAbility["name"])

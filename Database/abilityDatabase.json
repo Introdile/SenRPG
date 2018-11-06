@@ -5,11 +5,8 @@
 		"description": "This describes the ability.",
 		"targets": "ONE_FOE, ONE_ALLY, ALL_FOES, ALL_ALLIES, SELF",
 		"type": "DAMAGE, BUFF, DEBUFF, HEAL",
-		"damage": [
+		"effect": [
 			{ "type": "HP_DAMAGE", "element": "PHYSICAL", "based_stat": "MIGHT, TOUGH, POWER, WARD","power": 1.0 }
-		],
-		"effects": [
-			{ "effectID": "-1" },
 		],
 		"animation": [
 			{ "animation": "1" }
@@ -22,10 +19,9 @@
 		"targets": "ONE_FOE",
 		"type": "DAMAGE",
 		"element": "PHYSICAL",
-		"damage": [
+		"effect": [
 			{ "type": "HP_DAMAGE", "element": "PHYSICAL", "based_stat": "MIGHT","power": 1.0 },
 		],
-		"effects": [],
 		"animation": [
 			{ "key": "move", "pos":"TARGET_FRONT", "move_type": "run", "speed": 1.0 },
 			{ "key": "animation", "animation": "attack"},
@@ -38,15 +34,14 @@
 		"icon": 1,
 		"targets": "ONE_FOE",
 		"type": "DAMAGE",
-		"damage": [
+		"effect": [
 			{ "type": "HP_DAMAGE", "element": "PHYSICAL", "based_stat": "MIGHT","power": 1.0 },
 		],
-		"effects": [],
 		"animation": [
 			{ "key": "move", "pos":"SELF_FRONT", "move_type": "run", "speed": 0.5 },
 			{ "key": "animation", "animation": "attack" },
 		],
-		"cooldown": 2.0,
+		"cooldown": 0.0,
 	},
 	"2": {
 		"name": "Flickering Strike",
@@ -54,10 +49,9 @@
 		"icon": 0,
 		"targets": "ONE_FOE",
 		"type": "DAMAGE",
-		"damage": [
+		"effect": [
 			{ "type": "HP_DAMAGE", "element": "PHYSICAL", "based_stat": "MIGHT","power": 1.5 },
 			],
-		"effects": [],
 		"animation": [
 			{ "key": "move", "pos":"SELF_FRONT", "move_type": "run", "speed": 0.5 },
 			{ "key": "move", "pos":"TARGET_FRONT", "move_type": "run", "speed": 0.1 },
@@ -69,88 +63,5 @@
 		],
 		"cooldown": 4.0,
 	},
-	"3": {
-		"name": "Rage",
-		"description": "Builds up rage within ones-self, increasing [color=red]attack[/color], while decreasing [color=blue]defense[/color].",
-		"icon": "res://Assets/AbilityIcons/evil-eye-red-1.png",
-		"type": "Buff",
-		"power": 0.0,
-		"effects": [
-			{ "effectID": "-1", "effectTar": "-1" },
-		],
-		"animation": [],
-		"cooldown": 6.0,
-	},
-	"4": {
-		"name": "Arcane Destruction",
-		"description": "Fires a burst of arcane energy, devastating any who are hit.",
-		"icon": "res://Assets/AbilityIcons/fireball-eerie-1.png",
-		"type": "Damage",
-		"power": 15.0,
-		"effects": [
-			{ "effectID": "-1", "effectTar": "-1" },
-		],
-		"animation": [],
-		"cooldown": 8.0,
-	},
-	"5": {
-		"name": "Dark Aegis",
-		"description": "Completely nullifies all damage taken, until the effect wears off, where all the damage nullified is dealt.",
-		"icon": "res://Assets/AbilityIcons/protect-magenta-2.png",
-		"type": "Buff",
-		"power": 0.0,
-		"effects": [
-			{ "effectID": "-1", "effectTar": "-1" },
-		],
-		"animation": [],
-		"cooldown": 22.0,
-	},
-	"6": {
-		"name": "Soothing Sunlight",
-		"description": "Beams down the warmth of the sun on a target, [color=green]healing[/color] them.",
-		"icon": "res://Assets/AbilityIcons/heal-royal-3.png",
-		"type": "Heal",
-		"power": 12.0,
-		"effects": [
-			{ "effectID": "-1", "effectTar": "-1" },
-		],
-		"animation": [],
-		"cooldown": 6.0,
-	},
-	"7": {
-		"name": "Growth",
-		"description": "Infuses an ally with regeneration, causing them to [color=green]heal[/color] with every turn that passes.",
-		"icon": "res://Assets/AbilityIcons/heal-jade-1.png",
-		"type": "Heal",
-		"power": 2.0,
-		"effects": [
-			{ "effectID": "-1", "effectTar": "-1" },
-		],
-		"animation": [],
-		"cooldown": 4.0,
-	},
-	"8": {
-		"name": "Magnetism",
-		"description": "Magnetises your weapon, causing it to lower the defense of any foe hit by it.",
-		"icon": "res://Assets/AbilityIcons/enchant-royal-2.png",
-		"type": "Buff",
-		"power": 0.0,
-		"effects": [
-			{ "effectID": "-1", "effectTar": "-1" },
-		],
-		"animation": [],
-		"cooldown": 4.0,
-	},
-	"9": {
-		"name": "Supercalifrageliciousexpialidotious",
-		"description": "An arcane chant that causes a variety of [color=blue]effects[/color]. It first enchants your weapon with pumpkins, causing foes hit by basic attacks to become disoriented. Next, it enchants the user with [color=red]Freshness[/color], causing all foes to have a change of being charmed each turn, with the chance of being charmed increasing with each turn that passes. Lastly it has a really long description, just to test the limits of this tiny description box.",
-		"icon": "res://Assets/AbilityIcons/enchant-royal-3.png",
-		"type": "Buff",
-		"power": 1000.0,
-		"effects": [
-			{ "effectID": "-1", "effectTar": "-1" },
-		],
-		"animation": [],
-		"cooldown": 1.0,
-	},
+	
 }

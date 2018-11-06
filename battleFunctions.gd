@@ -53,7 +53,7 @@ static func getRandomBattler(blist):
 	var selected
 	
 	var randNum = randi() % 100
-#	print(randNum)
+	print(randNum)
 	
 	var hostSum = 0.0
 	var lastValue = 0.0
@@ -63,6 +63,7 @@ static func getRandomBattler(blist):
 		hostSum += i.hostility
 	for i in blist:
 		newRange = float(i.hostility) / hostSum * 100 + lastValue
+		print("lastValue: "+str(lastValue)+" | newRange: "+str(newRange))
 		
 		if randNum > lastValue and randNum < newRange:
 			selected = i
