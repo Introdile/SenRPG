@@ -100,7 +100,14 @@ func _process(delta):
 				i.character.current_health = i.character.base_health
 			
 			battlers.front().addStatusEffect(1,battlers.back())
-			#battlers.front().character.active_effects.append(Global_DatabaseReader.status[1].duplicate())
+			for i in ally:
+				if i.action == null:
+					match i.passiveAction:
+						"ATTACK":
+							i.action = i.character.attack_skill
+							i.target.append(battleFunc.getRandomBattler(foes))
+			
+			
 			changeState(battleState.FOE)
 		battleState.FOE:
 			sl = "The foe is selecting their action."
@@ -145,6 +152,14 @@ func _process(delta):
 			
 		battleState.EOT:
 			# end of turn
+			
+			#    set passive actions
+			for i in ally:
+				if i.action == null:
+					match i.passiveAction:
+						"ATTACK":
+							i.action = i.character.attack_skill
+							i.target.append(battleFunc.getRandomBattler(foes))
 			
 			#    reduce cooldowns and durations
 			for i in battlers:

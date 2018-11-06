@@ -31,11 +31,16 @@ var abAnimation
 var abCooldown
 var cur_cooldown = 0
 
-func load_from_database(id):
-	database_raw = Global_DatabaseReader.get_from_database(id,"ability")
-	if database_raw == null:
-		print("No ability found for ID " + str(id) + "!")
-		pass
+func load_from_database(id,dbr=null):
+	
+	if dbr != null:
+		database_raw = dbr
+	else:
+		database_raw = Global_DatabaseReader.get_from_database(id,"ability")
+		
+		if database_raw == null:
+			print("No ability found for ID " + str(id) + "!")
+			pass
 	
 	abID =  id
 	abIcon = database_raw["icon"]

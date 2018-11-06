@@ -1,5 +1,19 @@
 extends Node2D
 
+var STAT_GROWTH = {
+	"VERY_SLOW": 1,
+	"SLOw": 1.05,
+	"MEDIUM": 1.10,
+	"FAST": 1.125,
+	"VERY_FAST": 1.15,
+}
+
+var STAT_APT = {
+	"WEAK": 16,
+	"AVERAGE": 18,
+	"STRONG": 20
+}
+
 var database_raw
 
 var char_name
@@ -27,6 +41,7 @@ var hp_last_at
 var adrenaline = 100 # adrenaline max never changes
 
 # physical stats
+
 var base_might # influences attack damage
 var mod_might = []
 
@@ -111,28 +126,41 @@ func load_info_from_database(which,id):
 	match which:
 		"character": database_raw = Global_DatabaseReader.character[id]
 	
+	level = 1
+	
 	char_battler_scene = database_raw["path_to_battler"]
 	
 	char_name = database_raw["name"]
 	char_icon = database_raw["icon"]
-	base_health = database_raw["max_hp"]
+	
+	base_health = calculate_stat(database_raw["hp_aptitude"],database_raw["hp_growth"],level,"hp")
+	
 	current_health = base_health
 	hp_last_at = current_health
 	
-	base_might = database_raw["might"]
-	base_tough = database_raw["tough"]
+	base_might = calculate_stat(database_raw["might_aptitude"],database_raw["might_growth"],level)
+	base_tough = calculate_stat(database_raw["tough_aptitude"],database_raw["tough_growth"],level)
 	
-	base_power = database_raw["power"]
-	base_ward = database_raw["ward"]
+	base_power = calculate_stat(database_raw["power_aptitude"],database_raw["power_growth"],level)
+	base_ward = calculate_stat(database_raw["ward_aptitude"],database_raw["ward_growth"],level)
 	
-	base_speed = database_raw["speed"]
+	base_speed = calculate_stat(database_raw["speed_aptitude"],database_raw["speed_growth"],level)
 	
-	attack_skill = database_raw["attack"]
+	var as = load("res://Database/abilityInstance.gd").new()
+	as.load_from_database(0,database_raw["attack"])
+	attack_skill = as
+	
 	load_abilities()
 	
-	level = 1
-	
 	return self
+
+func calculate_stat(apt,grw,lvl,type="stat"):
+	if type == "stat":
+		return floor((STAT_APT[apt] + pow(lvl,STAT_GROWTH[grw]) * 1.5) - 1)
+	elif type == "hp":
+		return floor(((STAT_APT[apt]*2) + pow(lvl,STAT_GROWTH[grw]) * 2) - 1)
+	elif type == "en":
+		return floor(((STAT_APT[apt]*2) + pow(lvl,STAT_GROWTH[grw]) * 1.5) - 1)
 
 func load_abilities():
 	for i in database_raw["abilities"]:
