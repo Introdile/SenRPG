@@ -4,7 +4,7 @@
 [ext_resource path="res://progressBarBase.gd" type="Script" id=2]
 [ext_resource path="res://Assets/UI/prog_bar_prog.png" type="Texture" id=3]
 
-[node name="progressBarBase" type="TextureProgress"]
+[node name="progressBarBase" type="TextureProgress" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0

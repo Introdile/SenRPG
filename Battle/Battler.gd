@@ -72,13 +72,6 @@ func _ready():
 	
 	start_pos = sprite.global_position
 	
-#	hp = max_hp
-#	last_hp = hp
-#
-#	attack = _attack
-#	defense = _defense
-#	speed = _speed
-	
 	hpBar.addAmount(1000)
 	
 	if flip:

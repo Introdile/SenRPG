@@ -13,10 +13,12 @@ static func _deal_damage(a,b,ds):
 	match ds["type"]:
 		"HP_DAMAGE":
 			dam = calculateDamage(a,b,ds)
+			b.character.removeHP(dam)
+			b.character.changeBlue(dam*0.25)
 		#TODO: ADD MORE
 	
 	
-	b.character.removeHP(dam)
+	
 
 static func calculateDamage(a,b,ds):
 	var totaldamage
@@ -53,7 +55,6 @@ static func getRandomBattler(blist):
 	var selected
 	
 	var randNum = randi() % 100
-	print(randNum)
 	
 	var hostSum = 0.0
 	var lastValue = 0.0
@@ -63,7 +64,6 @@ static func getRandomBattler(blist):
 		hostSum += i.hostility
 	for i in blist:
 		newRange = float(i.hostility) / hostSum * 100 + lastValue
-		print("lastValue: "+str(lastValue)+" | newRange: "+str(newRange))
 		
 		if randNum > lastValue and randNum < newRange:
 			selected = i

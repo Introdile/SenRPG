@@ -34,8 +34,11 @@ var active_effects = []
 
 # hp/adr
 var base_health
+
 var mod_health = []
+
 var current_health #setget sethp,gethp
+var blue_health = 0 
 var hp_last_at
 
 var adrenaline = 100 # adrenaline max never changes
@@ -85,6 +88,13 @@ func addHP(value):
 	
 	var chg = (value / base_health) * 100
 	emit_signal("hp_changed",value,"up")
+
+func changeBlue(value):
+	blue_health += value
+
+func regenerateFromBlue():
+	var regen = (1 - (level / ( getTough() + level)))
+	pass
 
 func getAdjusted(val,mod):
 	# val should be the base_stat value

@@ -10,6 +10,7 @@ onready var barHurt = get_node("progressBarHurt")
 export(Color) var lose_color = Color("ff0000")
 
 var currentAmount = 10
+var blueAmount
 var bar_speed = 2
 
 var barUpdate = false
@@ -25,8 +26,8 @@ func _ready():
 	#TODO: MAKE SUB BARS ADJUST TO SIZE OF BASE BAR
 
 func _process(delta):
-#	if Input.is_action_just_pressed("ui_up"):
-#		addAmount(20)
+	if Input.is_action_just_pressed("ui_up"):
+		addAmount(20)
 #	if Input.is_action_just_pressed("ui_down"):
 #		removeAmount(20)
 	
@@ -41,12 +42,11 @@ func _process(delta):
 
 func addAmount(amount):
 	
-	var newVal = barHeal.value + amount
-	if newVal > barHeal.max_value:
-		newVal = barHeal.max_value
+	var newVal = barAmount.value + amount
+	if newVal > barAmount.max_value:
+		newVal = barAmount.max_value
 	
 	currentAmount = newVal
-	barHeal.value = newVal
 	barUpdate = true
 
 func removeAmount(amount):
@@ -57,8 +57,15 @@ func removeAmount(amount):
 	
 	currentAmount = newVal
 	barAmount.value = newVal
-	barHeal.value = newVal
+#	barHeal.value = newVal
 	barUpdate = true
+
+func changeBlue(amount):
+	# add blue health
+	# bar would be barAmount + blue amount
+	
+	blueAmount += amount 
+	barHeal.value = blueAmount + barAmount.value
 
 func changeMax(newMax):
 	barHurt.max_value = newMax
